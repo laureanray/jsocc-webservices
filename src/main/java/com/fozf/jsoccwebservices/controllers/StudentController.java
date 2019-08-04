@@ -2,7 +2,6 @@ package com.fozf.jsoccwebservices.controllers;
 
 import com.fozf.jsoccwebservices.domain.Login;
 import com.fozf.jsoccwebservices.domain.Student;
-import com.fozf.jsoccwebservices.exceptions.NotFoundExeption;
 import com.fozf.jsoccwebservices.services.StudentService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.HttpStatus;
@@ -24,7 +23,7 @@ public class StudentController {
 
     @GetMapping()
     List<Student> getAllCustomers(){
-        return studentService.findAllCustomer();
+        return studentService.findAllStudent();
     }
 
     @GetMapping("/{id}")

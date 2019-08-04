@@ -34,7 +34,7 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<Student> findAllCustomer() {
+    public List<Student> findAllStudent() {
         return studentRepository.findAll();
     }
 
@@ -45,14 +45,5 @@ public class StudentServiceImpl implements StudentService {
         student.setPassword(hashed);
         return studentRepository.save(student);
     }
-
-//    @Override
-//    public Student loginStudent(Login login) {
-//        List<Student> students = studentRepository.findFirstNameByUsername(login.getUsername());
-//
-//        System.out.println(students.get(0).getFirstName());
-//        return students.get(0);
-//    }
-
 
 }

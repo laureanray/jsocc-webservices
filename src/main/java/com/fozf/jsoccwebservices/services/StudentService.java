@@ -8,7 +8,7 @@ import java.util.List;
 public interface StudentService {
     Student findCustomerById(Long id);
     Student findByUserName(String username);
-    List<Student> findAllCustomer();
+    List<Student> findAllStudent();
 
 
     Student saveStudent(Student student);
