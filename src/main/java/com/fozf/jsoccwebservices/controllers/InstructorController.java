@@ -27,4 +27,9 @@ public class InstructorController {
         return instructorService.saveInstructor(instructor);
     }
 
+    @GetMapping("/find/{username}")
+    public Instructor findByUsername(@PathVariable String username){
+        return instructorService.findByUserName(username);
+    }
+
 }

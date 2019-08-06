@@ -51,6 +51,14 @@ public class StudentController {
             throw new RuntimeException("Incorrect password");
         }
     }
+
+    @GetMapping("/find/{username}")
+    public Student findStudentByUsername(@PathVariable String username){
+        return studentService.findByUserName(username);
+    }
+
+//    @PostMapping(value = "/find/{username}")
+//    public Student findByUsername(@)
 //    @PostMapping
 //    @ResponseStatus(HttpStatus.ACCEPTED)
 //    public Student loginStudent(@RequestBody Login login){
