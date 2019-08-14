@@ -18,6 +18,8 @@ public class Student {
     @Column(unique = true, nullable = false)
     private String username;
 
+
+
     public long getId() {
         return id;
     }
