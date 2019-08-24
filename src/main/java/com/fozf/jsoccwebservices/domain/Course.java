@@ -1,9 +1,18 @@
 package com.fozf.jsoccwebservices.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
+import static javax.persistence.CascadeType.ALL;
+
+@EqualsAndHashCode(exclude = "exercises")
 @Data
 @Entity
 public class Course {
@@ -20,6 +29,30 @@ public class Course {
     private String enrollmentKey;
     @Column(nullable = false)
     private long instructorId;
+
+    private Date dateAdded;
+    private Date dateModified;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Exercise> exercises;
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public Date getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(Date dateModified) {
+        this.dateModified = dateModified;
+    }
+
 
     public long getId() {
         return id;

@@ -15,6 +15,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.xml.ws.Response;
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -51,6 +52,7 @@ public class CourseController {
 
     @PostMapping("/create")
     public ResponseEntity<Course> saveCourse(@RequestBody Course course){
+        course.setDateAdded(new Date());
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(course.getId())
