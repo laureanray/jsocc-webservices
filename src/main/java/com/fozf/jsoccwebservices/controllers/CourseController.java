@@ -70,9 +70,19 @@ public class CourseController {
     @PutMapping("/updateById/{id}")
     public Course updateById(@PathVariable long id, @Valid @RequestBody Course newCourse){
         return courseService.findById(id).map(course -> {
-            if(!newCourse.getCourseCode().isEmpty()){
+
+            if (!newCourse.getCourseCode().isEmpty()) {
                 course.setCourseCode(newCourse.getCourseCode());
             }
+
+            if(!newCourse.getCourseDescription().isEmpty()) {
+                course.setCourseDescription(newCourse.getCourseDescription());
+            }
+
+            if(!newCourse.getCourseTitle().isEmpty()){
+                course.setCourseTitle(newCourse.getCourseTitle());
+            }
+
             return courseService.saveCourse(course);
         }).orElseThrow(() -> new ResourceNotFoundException("course_id: " + id + " not found"));
     }

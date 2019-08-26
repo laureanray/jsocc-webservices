@@ -1,15 +1,13 @@
 package com.fozf.jsoccwebservices.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -25,6 +23,7 @@ public class Course {
     @Column(nullable = false)
     private String courseDescription;
     @Column(unique = true, nullable = false)
+    @NotNull
     private String courseCode;
     @Column(nullable = false)
     private String enrollmentKey;
