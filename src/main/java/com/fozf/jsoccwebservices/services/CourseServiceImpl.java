@@ -22,10 +22,10 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.findById(id).get();
     }
 
-    @Override
-    public Course findByCode(String code) {
-        return courseRepository.findByCode(code);
-    }
+//    @Override
+//    public Course findByCode(String code) {
+//        return courseRepository(code);
+//    }
 
     @Override
     public List<Course> findAllCourse() {
@@ -37,8 +37,8 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.save(course);
     }
 
-    @Override
-    public List<Course> findByInstructorId(long instructorId) {
-        return courseRepository.findByInstructorId(instructorId);
-    }
+//    @Override
+//    public List<Course> findByInstructorId(long instructorId) {
+//        return courseRepository.findByInstructorId(instructorId);
+//    }
 }

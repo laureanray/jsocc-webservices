@@ -61,24 +61,24 @@ public class CourseController {
     }
 
 
-    @GetMapping("/find/{code}")
-    public ResponseEntity<Course> findByCode(@PathVariable String code){
-        Course course = courseService.findByCode(code);
-        if(course != null) {
-            return ResponseEntity.ok(course);
-        }
-        return ResponseEntity.notFound().build();
-    }
-
-    @GetMapping("/findUsingInstructorId/{instructorId}")
-    public ResponseEntity<List<Course>> findUsingInstructorId(@PathVariable long instructorId){
-        List<Course> courses = courseService.findByInstructorId(instructorId);
-
-        if(courses != null){
-            return ResponseEntity.ok(courses);
-        }
-
-        return ResponseEntity.notFound().build();
-    }
+//    @GetMapping("/find/{code}")
+//    public ResponseEntity<Course> findByCode(@PathVariable String code){
+//        Course course = courseService.findByCode(code);
+//        if(course != null) {
+//            return ResponseEntity.ok(course);
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
+//
+//    @GetMapping("/findUsingInstructorId/{instructorId}")
+//    public ResponseEntity<List<Course>> findUsingInstructorId(@PathVariable long instructorId){
+//        List<Course> courses = courseService.findByInstructorId(instructorId);
+//
+//        if(courses != null){
+//            return ResponseEntity.ok(courses);
+//        }
+//
+//        return ResponseEntity.notFound().build();
+//    }
 
 }

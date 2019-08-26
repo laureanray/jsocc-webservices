@@ -7,8 +7,8 @@ import java.util.List;
 
 public interface CourseService {
     Course findById(long id);
-    Course findByCode(String code);
+//    Course findByCode(String code);
     List<Course> findAllCourse();
-    List<Course> findByInstructorId(long instructorId);
+//    List<Course> findByInstructorId(long instructorId);
     Course saveCourse(Course course);
 }
