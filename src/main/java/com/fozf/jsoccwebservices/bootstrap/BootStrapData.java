@@ -51,9 +51,6 @@ public class BootStrapData implements CommandLineRunner {
         instructor1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
         instructor1.setEmail("juan@gmail.com");
 
-        Grade grade = new Grade();
-        grade.setFinalGrade(99.50);
-
 
         Course course1 = new Course();
         course1.setCourseTitle("Object Oriented Programming");
@@ -61,8 +58,6 @@ public class BootStrapData implements CommandLineRunner {
         course1.setCourseCode("COEN3331");
         course1.setEnrollmentKey("123456");
         course1.setInstructor(instructor1);
-        grade.setCourse(course1);
-        course1.setGrade(grade);
 
         Course course2 = new Course();
         course2.setCourseTitle("Object Oriented Programming 2");
@@ -98,7 +93,14 @@ public class BootStrapData implements CommandLineRunner {
         instructor1.getCourses().add(course1);
         instructor1.getCourses().add(course2);
 
-        instructorRepository.save(instructor1);
+
+        if(instructorRepository.count() == 0){
+            instructorRepository.save(instructor1);
+        }
+
+        if(studentRepository.count() == 0){
+            studentRepository.save(student1);
+        }
 
         System.out.println("Current # of student in database:  " + studentRepository.count());
         System.out.println("Current # of instructor in database: " + instructorRepository.count());

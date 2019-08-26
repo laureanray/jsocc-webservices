@@ -4,6 +4,7 @@ import com.fozf.jsoccwebservices.domain.Course;
 import com.fozf.jsoccwebservices.domain.Instructor;
 import com.fozf.jsoccwebservices.domain.Login;
 import com.fozf.jsoccwebservices.domain.Student;
+import com.fozf.jsoccwebservices.exceptions.ResourceNotFoundException;
 import com.fozf.jsoccwebservices.services.CourseService;
 import com.fozf.jsoccwebservices.services.InstructorService;
 import com.fozf.jsoccwebservices.services.StudentService;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import javax.xml.ws.Response;
 import java.net.URI;
 import java.util.Date;
@@ -36,13 +38,13 @@ public class CourseController {
     }
 
     @GetMapping()
-    List<Course> getAllCourse(){
+    List<Course> findAllCourse(){
         return courseService.findAllCourse();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Course> getCourseById(@PathVariable long id){
-        Course course = courseService.findById(id);
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<Course> findById(@PathVariable long id){
+        Course course = courseService.findById(id).get();
         if(course != null){
             return ResponseEntity.ok(course);
         }
@@ -60,25 +62,18 @@ public class CourseController {
         return ResponseEntity.created(uri).body(courseService.saveCourse(course));
     }
 
+    @GetMapping("/findByInstructorId/{id}")
+    public List<Course> findByInstructorId(@PathVariable long id){
+        return courseService.findByInstructorId(id);
+    }
 
-//    @GetMapping("/find/{code}")
-//    public ResponseEntity<Course> findByCode(@PathVariable String code){
-//        Course course = courseService.findByCode(code);
-//        if(course != null) {
-//            return ResponseEntity.ok(course);
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
-//
-//    @GetMapping("/findUsingInstructorId/{instructorId}")
-//    public ResponseEntity<List<Course>> findUsingInstructorId(@PathVariable long instructorId){
-//        List<Course> courses = courseService.findByInstructorId(instructorId);
-//
-//        if(courses != null){
-//            return ResponseEntity.ok(courses);
-//        }
-//
-//        return ResponseEntity.notFound().build();
-//    }
-
-}
+    @PutMapping("/updateById/{id}")
+    public Course updateById(@PathVariable long id, @Valid @RequestBody Course newCourse){
+        return courseService.findById(id).map(course -> {
+            if(!newCourse.getCourseCode().isEmpty()){
+                course.setCourseCode(newCourse.getCourseCode());
+            }
+            return courseService.saveCourse(course);
+        }).orElseThrow(() -> new ResourceNotFoundException("course_id: " + id + " not found"));
+    }
+    }

@@ -1,5 +1,6 @@
 package com.fozf.jsoccwebservices.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class TestCase {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private ExerciseItem exerciseItem;
 
     private String input;

@@ -1,14 +1,14 @@
 package com.fozf.jsoccwebservices.services;
 
 import com.fozf.jsoccwebservices.domain.Course;
-import com.fozf.jsoccwebservices.domain.Instructor;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CourseService {
-    Course findById(long id);
-//    Course findByCode(String code);
+    Optional<Course> findById(long id);
     List<Course> findAllCourse();
-//    List<Course> findByInstructorId(long instructorId);
     Course saveCourse(Course course);
+    List<Course> findByInstructorId(long instructorId);
+    List<Course> findByCourseCode(String courseCode);
 }

@@ -8,8 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface CourseRepository extends JpaRepository<Course, Long> {
-//    @Query("SELECT c from Course c where c.courseCode = ?1")
-//    Course findByCode(String code);
-//    @Query("SELECT c from Course c where c.instructorId = ?1")
-//    List<Course> findByInstructorId(long instructorId);
+      List<Course> findByInstructorId(long instructorId);
+      List<Course> findByCourseCode(String courseCode);
 }

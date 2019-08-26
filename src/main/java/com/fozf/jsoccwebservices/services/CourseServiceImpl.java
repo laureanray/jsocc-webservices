@@ -4,8 +4,8 @@ import com.fozf.jsoccwebservices.domain.Course;
 import com.fozf.jsoccwebservices.repositories.CourseRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseServiceImpl implements CourseService {
@@ -16,16 +16,10 @@ public class CourseServiceImpl implements CourseService {
         this.courseRepository = courseRepository;
     }
 
-
     @Override
-    public Course findById(long id) {
-        return courseRepository.findById(id).get();
+    public Optional<Course> findById(long id) {
+        return courseRepository.findById(id);
     }
-
-//    @Override
-//    public Course findByCode(String code) {
-//        return courseRepository(code);
-//    }
 
     @Override
     public List<Course> findAllCourse() {
@@ -37,8 +31,14 @@ public class CourseServiceImpl implements CourseService {
         return courseRepository.save(course);
     }
 
-//    @Override
-//    public List<Course> findByInstructorId(long instructorId) {
-//        return courseRepository.findByInstructorId(instructorId);
-//    }
+
+    @Override
+    public List<Course> findByInstructorId(long instructorId) {
+        return courseRepository.findByInstructorId(instructorId);
+    }
+
+    @Override
+    public List<Course> findByCourseCode(String courseCode) {
+        return courseRepository.findByCourseCode(courseCode);
+    }
 }

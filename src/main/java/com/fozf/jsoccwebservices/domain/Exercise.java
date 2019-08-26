@@ -21,9 +21,11 @@ public class Exercise {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
     private Course course;
 
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<ExerciseItem> exerciseItems = new HashSet<>();
 
     private String exerciseTitle;
