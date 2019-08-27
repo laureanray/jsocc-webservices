@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-public class Instructor {
+public class Instructor extends User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

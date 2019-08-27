@@ -58,6 +58,7 @@ public class BootStrapData implements CommandLineRunner {
         course1.setCourseCode("COEN3331");
         course1.setEnrollmentKey("123456");
         course1.setInstructor(instructor1);
+        course1.setDateAdded(new Date());
 
         Course course2 = new Course();
         course2.setCourseTitle("Object Oriented Programming 2");
@@ -65,7 +66,7 @@ public class BootStrapData implements CommandLineRunner {
         course2.setCourseCode("COEN3332");
         course2.setEnrollmentKey("123456");
         course2.setInstructor(instructor1);
-
+        course2.setDateAdded(new Date());
 
         Exercise exercise = new Exercise();
         exercise.setExerciseTitle("Basic Java Programming");

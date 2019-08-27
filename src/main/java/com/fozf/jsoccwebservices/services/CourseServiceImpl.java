@@ -41,4 +41,9 @@ public class CourseServiceImpl implements CourseService {
     public List<Course> findByCourseCode(String courseCode) {
         return courseRepository.findByCourseCode(courseCode);
     }
+
+    @Override
+    public void removeCourse(long courseID) {
+        courseRepository.deleteById(courseID);
+    }
 }

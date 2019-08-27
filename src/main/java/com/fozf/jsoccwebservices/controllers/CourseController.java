@@ -37,6 +37,7 @@ public class CourseController {
         this.courseService = courseService;
     }
 
+    @CrossOrigin(origins = "http://localhost:5500")
     @GetMapping()
     List<Course> findAllCourse(){
         return courseService.findAllCourse();
@@ -52,6 +53,7 @@ public class CourseController {
         return ResponseEntity.notFound().build();
     }
 
+    @CrossOrigin(origins = "http://localhost:5500")
     @PostMapping("/create")
     public ResponseEntity<Course> saveCourse(@RequestBody Course course){
         course.setDateAdded(new Date());
@@ -83,7 +85,14 @@ public class CourseController {
                 course.setCourseTitle(newCourse.getCourseTitle());
             }
 
+            course.setDateModified(new Date());
             return courseService.saveCourse(course);
         }).orElseThrow(() -> new ResourceNotFoundException("course_id: " + id + " not found"));
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable long id){
+        courseService.removeCourse(id);
+    }
+
     }

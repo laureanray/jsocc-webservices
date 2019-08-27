@@ -54,7 +54,6 @@ public class InstructorController {
 
     @PostMapping("/login")
     public ResponseEntity<Instructor> login(@RequestBody Login login){
-//        System.out.println(login.getUsername());
         Instructor instructor = instructorService.findByUserName(login.getUsername());
         if(instructor == null){
             return ResponseEntity.badRequest().build();

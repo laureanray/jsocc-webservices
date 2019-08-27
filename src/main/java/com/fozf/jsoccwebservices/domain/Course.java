@@ -33,12 +33,8 @@ public class Course {
     private Instructor instructor;
     private Date dateAdded;
     private Date dateModified;
-
-//    @OneToOne(fetch = FetchType.LAZY,
-//            cascade =  CascadeType.ALL,
-//            mappedBy = "course")
-//    @JsonManagedReference
-//    private Grade grade;
+    private Date enrollmentStartDate;
+    private Date enrollmentEndDate;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     @JsonManagedReference

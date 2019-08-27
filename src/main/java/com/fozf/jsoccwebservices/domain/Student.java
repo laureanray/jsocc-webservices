@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Student {
+public class Student extends User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,4 +20,8 @@ public class Student {
     private String password;
     @Column(unique = true, nullable = false)
     private String username;
+
+
+    public Student( ) {
+    }
 }

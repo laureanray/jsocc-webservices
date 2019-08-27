@@ -11,4 +11,5 @@ public interface CourseService {
     Course saveCourse(Course course);
     List<Course> findByInstructorId(long instructorId);
     List<Course> findByCourseCode(String courseCode);
+    void removeCourse(long courseId);
 }
