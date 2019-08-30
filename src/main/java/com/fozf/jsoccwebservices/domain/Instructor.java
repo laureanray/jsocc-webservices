@@ -24,6 +24,7 @@ public class Instructor extends User{
     private String password;
     @Column(unique = true, nullable = false)
     private String username;
+    private String userProfileImage;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     @JsonManagedReference

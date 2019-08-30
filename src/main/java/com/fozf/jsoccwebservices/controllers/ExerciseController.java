@@ -53,15 +53,6 @@ public class ExerciseController {
     }
 
 
-//    @GetMapping("/find/{code}")
-//    public ResponseEntity<Exercise> findByCode(@PathVariable String code){
-//        Exercise exercise = exerciseService.findById(code);
-//        if(exercise != null) {
-//            return ResponseEntity.ok(exercise);
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
-
     @GetMapping("/findUsingCourseId/{courseId}")
     public ResponseEntity<List<Exercise>> findUsingCourseId(@PathVariable long courseId){
         List<Exercise> exercises = exerciseService.findByCourseId(courseId);
