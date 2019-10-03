@@ -9,5 +9,5 @@ public interface ExerciseItemService {
     ExerciseItem findById(long id);
     List<ExerciseItem> findByExerciseId(long exerciseId);
     List<ExerciseItem> findAll();
-    ExerciseItem saveExercise(ExerciseItem exerciseItem);
+    ExerciseItem saveExerciseItem(ExerciseItem exerciseItem);
 }

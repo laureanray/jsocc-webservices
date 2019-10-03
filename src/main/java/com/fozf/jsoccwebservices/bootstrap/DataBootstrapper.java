@@ -46,14 +46,12 @@ public class DataBootstrapper implements CommandLineRunner {
         student1.setEmail("laureanraybahala@gmail.com");
         student1.setUsername("laureanray");
 
-
         Instructor instructor1 = new Instructor();
         instructor1.setFirstName("Juan");
         instructor1.setLastName("Dela Cruz");
         instructor1.setUsername("juan");
         instructor1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
         instructor1.setEmail("juan@gmail.com");
-
 
         Course course1 = new Course();
         course1.setCourseTitle("Object Oriented Programming");
@@ -62,6 +60,7 @@ public class DataBootstrapper implements CommandLineRunner {
         course1.setEnrollmentKey("123456");
         course1.setInstructor(instructor1);
         course1.setDateAdded(new Date());
+        course1.setCourseProgrammingLanguage("Java");
 
         Course course2 = new Course();
         course2.setCourseTitle("Object Oriented Programming 2");
@@ -70,6 +69,8 @@ public class DataBootstrapper implements CommandLineRunner {
         course2.setEnrollmentKey("123456");
         course2.setInstructor(instructor1);
         course2.setDateAdded(new Date());
+        course2.setCourseProgrammingLanguage("Python");
+
 
         Exercise exercise = new Exercise();
         exercise.setExerciseTitle("Basic Java Programming");
@@ -83,13 +84,10 @@ public class DataBootstrapper implements CommandLineRunner {
         exerciseItem.setItemDescription("Use stdout to print Hello, Java.");
         exerciseItem.setPoints(10);
         exerciseItem.setExercise(exercise);
-
         TestCase testCase1 = new TestCase();
         testCase1.setInput(null);
         testCase1.setOutput("Hello, Java.");
         testCase1.setExerciseItem(exerciseItem);
-
-
 
         exerciseItem.getTestCases().add(testCase1);
         exercise.getExerciseItems().add(exerciseItem);

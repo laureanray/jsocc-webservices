@@ -17,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import javax.xml.ws.Response;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +40,14 @@ public class CourseController {
 
     @CrossOrigin(origins = "http://localhost:5500")
     @GetMapping()
-    List<Course> findAllCourse(){
-        return courseService.findAllCourse();
+    ResponseEntity<List<Course>> findAllCourse(){
+        List<Course> courses = new ArrayList<>(courseService.findAllCourse());
+
+        for(int i = 0; i < courses.size(); i++){
+            System.out.println(courses.get(i).getInstructor().getFirstName());
+        }
+
+        return ResponseEntity.ok(courses);
     }
 
     @GetMapping("/findById/{id}")

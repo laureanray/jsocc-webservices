@@ -46,4 +46,9 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.save(student);
     }
 
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @Override
+    public Student updateStudent(Student student) {
+        return studentRepository.save(student);
+    }
 }

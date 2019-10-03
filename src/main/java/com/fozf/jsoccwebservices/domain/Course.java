@@ -1,19 +1,18 @@
 package com.fozf.jsoccwebservices.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.*;
+import com.fasterxml.jackson.annotation.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
+
 
 @Getter
 @Setter
 @Entity
-
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,21 +21,28 @@ public class Course {
     private String courseTitle;
     @Column(nullable = false)
     private String courseDescription;
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     @NotNull
     private String courseCode;
     @Column(nullable = false)
     private String enrollmentKey;
+    @Column(nullable = false)
+    private String courseProgrammingLanguage;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+//    @JsonBackReference
+//    @JsonIgnoreProperties("courses")
     private Instructor instructor;
+
     private Date dateAdded;
     private Date dateModified;
     private Date enrollmentStartDate;
     private Date enrollmentEndDate;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
-    @JsonManagedReference
     private Set<Exercise> exercises = new HashSet<>();
+
+    @ManyToMany(mappedBy = "courses", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Student> students = new HashSet<>();
 }

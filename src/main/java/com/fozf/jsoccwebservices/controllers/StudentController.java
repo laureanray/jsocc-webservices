@@ -1,8 +1,11 @@
 package com.fozf.jsoccwebservices.controllers;
 
+import com.fozf.jsoccwebservices.domain.Course;
 import com.fozf.jsoccwebservices.domain.Instructor;
 import com.fozf.jsoccwebservices.domain.Login;
 import com.fozf.jsoccwebservices.domain.Student;
+import com.fozf.jsoccwebservices.repositories.StudentRepository;
+import com.fozf.jsoccwebservices.services.CourseService;
 import com.fozf.jsoccwebservices.services.InstructorService;
 import com.fozf.jsoccwebservices.services.StudentService;
 import org.mindrot.jbcrypt.BCrypt;
@@ -22,11 +25,15 @@ public class StudentController {
 
     private final StudentService studentService;
     private final InstructorService instructorService;
+    private final CourseService courseService;
+    private final StudentRepository studentRepository;
 
-    public StudentController(StudentService studentService, InstructorService instructorService)
+    public StudentController(StudentService studentService, InstructorService instructorService, CourseService courseService, StudentRepository studentRepository)
     {
         this.studentService = studentService;
         this.instructorService = instructorService;
+        this.courseService = courseService;
+        this.studentRepository = studentRepository;
     }
 
     @GetMapping()
@@ -78,6 +85,27 @@ public class StudentController {
         if(student != null) {
             return ResponseEntity.ok(student);
         }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/enroll/{username}/{courseId}")
+    public ResponseEntity<Student> enrollStudentToCourse(@PathVariable String username, @PathVariable int courseId){
+        Student studentToEnroll = studentService.findByUserName(username);
+        Course courseToEnrollTo = courseService.findById(courseId).get();
+
+        if(studentToEnroll != null && courseToEnrollTo != null) {
+            System.out.println(studentToEnroll.getUsername());
+            System.out.println(courseToEnrollTo.getCourseCode());
+
+            studentToEnroll.getCourses().add(courseToEnrollTo);
+            courseToEnrollTo.getStudents().add(studentToEnroll);
+
+            studentService.updateStudent(studentToEnroll);
+            courseService.saveCourse(courseToEnrollTo);
+
+            return ResponseEntity.ok(studentToEnroll);
+        }
+
         return ResponseEntity.notFound().build();
     }
 
