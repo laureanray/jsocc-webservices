@@ -22,6 +22,7 @@ public class ExerciseItem {
     private String itemTitle;
     private String itemDescription;
     private int points;
+    private boolean isCompleted = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonBackReference

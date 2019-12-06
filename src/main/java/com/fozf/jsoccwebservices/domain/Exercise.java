@@ -33,4 +33,5 @@ public class Exercise {
     private Date exerciseDeadline;
     private Date dateAdded;
     private Date dateModified;
+    private boolean isCompleted = false;
 }

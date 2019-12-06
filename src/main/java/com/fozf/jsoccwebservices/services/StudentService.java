@@ -10,7 +10,6 @@ public interface StudentService {
     Student findByUserName(String username);
     List<Student> findAllStudent();
 
-
     Student saveStudent(Student student);
-
+    Student updateStudent(Student student);
 }

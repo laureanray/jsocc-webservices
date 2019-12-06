@@ -1,5 +1,7 @@
 package com.fozf.jsoccwebservices.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
@@ -27,6 +29,8 @@ public class Instructor extends User{
     private String userProfileImage;
 
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnore
     private Set<Course> courses = new HashSet<>();
+
+
 }

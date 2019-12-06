@@ -31,7 +31,7 @@ public class ExerciseItemServiceImpl implements ExerciseItemService {
     }
 
     @Override
-    public ExerciseItem saveExercise(ExerciseItem exerciseItem) {
+    public ExerciseItem saveExerciseItem(ExerciseItem exerciseItem) {
         return exerciseItemRepository.save(exerciseItem);
     }
 }

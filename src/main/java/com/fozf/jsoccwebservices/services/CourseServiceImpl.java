@@ -12,6 +12,7 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
 
+
     public CourseServiceImpl(CourseRepository courseRepository) {
         this.courseRepository = courseRepository;
     }
@@ -46,4 +47,5 @@ public class CourseServiceImpl implements CourseService {
     public void removeCourse(long courseID) {
         courseRepository.deleteById(courseID);
     }
+
 }
