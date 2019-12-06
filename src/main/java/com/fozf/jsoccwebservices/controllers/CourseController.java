@@ -96,6 +96,9 @@ public class CourseController {
             return courseService.saveCourse(course);
         }).orElseThrow(() -> new ResourceNotFoundException("course_id: " + id + " not found"));
     }
+//
+//    @GetMapping("/findByUserId/{id}")
+//    public List<Course> findBy
 
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable long id){
