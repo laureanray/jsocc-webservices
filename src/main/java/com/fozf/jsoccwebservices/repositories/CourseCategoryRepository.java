@@ -7,4 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CourseCategoryRepository extends JpaRepository<CourseCategory, Long> {
+    CourseCategory findById(long id);
+    List<CourseCategory> findAll();
+
 }

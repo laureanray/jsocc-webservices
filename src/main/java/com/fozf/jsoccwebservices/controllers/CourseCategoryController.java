@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping(CourseCategoryController.BASE_URL)
 public class CourseCategoryController {
 
-    public static final String BASE_URL = "api/v1/course";
+    public static final String BASE_URL = "api/v1/courseCategory";
 
     private final StudentService studentService;
     private final InstructorService instructorService;

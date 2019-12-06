@@ -1,6 +1,7 @@
 package com.fozf.jsoccwebservices.services;
 
 import com.fozf.jsoccwebservices.domain.CourseCategory;
+import com.fozf.jsoccwebservices.repositories.CourseCategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,29 +10,29 @@ import java.util.Optional;
 @Service
 public class CourseCategoryServiceImpl implements CourseCategoryService {
 
-    private final CourseCategoryService courseCategoryService;
+    private final CourseCategoryRepository courseCategoryRepository;
 
-    public CourseCategoryServiceImpl(CourseCategoryService courseCategoryService) {
-        this.courseCategoryService = courseCategoryService;
+    public CourseCategoryServiceImpl(CourseCategoryRepository courseCategoryRepository) {
+        this.courseCategoryRepository = courseCategoryRepository;
     }
 
     @Override
     public CourseCategory findById(long id) {
-        return courseCategoryService.findById(id);
+        return courseCategoryRepository.findById(id);
     }
 
     @Override
     public List<CourseCategory> findAllCourseCategory() {
-        return courseCategoryService.findAllCourseCategory();
+        return courseCategoryRepository.findAll();
     }
 
     @Override
     public CourseCategory saveCourseCategory(CourseCategory courseCategory) {
-        return courseCategoryService.saveCourseCategory(courseCategory);
+        return courseCategoryRepository.save(courseCategory);
     }
 
     @Override
     public void removeCourseCategory(long courseCategoryId) {
-        courseCategoryService.removeCourseCategory(courseCategoryId);
+        courseCategoryRepository.deleteById(courseCategoryId);
     }
 }
