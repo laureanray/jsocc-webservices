@@ -2,7 +2,6 @@ package com.fozf.jsoccwebservices.controllers;
 
 import com.fozf.jsoccwebservices.storage.StorageFileNotFoundException;
 import com.fozf.jsoccwebservices.storage.StorageService;
-import jdk.nashorn.internal.runtime.StoredScript;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
