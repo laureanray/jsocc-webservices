@@ -33,7 +33,7 @@ public class JavaController {
     // This methods
     @CrossOrigin(origins = "http://localhost:5500")
     @PostMapping("/compile")
-    public DeferredResult<CompileTask> saveCourse(@RequestBody CompileTask compileTask){
+    public DeferredResult<CompileTask> compile(@RequestBody CompileTask compileTask){
 
         final DeferredResult<CompileTask> deferredResult = new DeferredResult<>();
 
@@ -43,8 +43,20 @@ public class JavaController {
                 deferredResult.setResult(res);
             });
 
+
         return deferredResult;
     }
+
+//    @CrossOrigin(origins = "http://localhost:5500")
+//    @PostMapping("/compileAndRun")
+//    public DeferredResult<CompileTask> compileAndRun(@RequestBody CompileTask compileTask){
+//        final DeferredResult<CompileTask> deferredResult = new DeferredResult<>();
+//
+//        javaCompiler.CompileAndRun(compileTask)
+//                .registerOnCompileListener(res -> {
+//
+//                });
+//    }
 
 //    @GetMapping("/findByInstructorId/{id}")
 //    public List<Course> findByInstructorId(@PathVariable long id){

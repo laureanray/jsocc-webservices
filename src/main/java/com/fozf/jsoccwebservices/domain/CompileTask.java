@@ -8,6 +8,34 @@ public class CompileTask {
     private long id;
     private String source;
     private String result;
+    private String[] input;
+    private boolean compileResult;
+
+    public String getCompileMessage() {
+        return compileMessage;
+    }
+
+    public void setCompileMessage(String compileMessage) {
+        this.compileMessage = compileMessage;
+    }
+
+    private String compileMessage;
+
+    public String[] getInput() {
+        return input;
+    }
+
+    public void setInput(String[] input) {
+        this.input = input;
+    }
+
+    public boolean isCompileResult() {
+        return compileResult;
+    }
+
+    public void setCompileResult(boolean compileResult) {
+        this.compileResult = compileResult;
+    }
 
     public CompileTask(String source, String result) {
         this.source = source;
