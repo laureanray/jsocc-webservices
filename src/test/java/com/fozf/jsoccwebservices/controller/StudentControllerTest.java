@@ -1,13 +1,10 @@
 package com.fozf.jsoccwebservices.controller;
 
-import com.fozf.jsoccwebservices.bootstrap.DataBootstrapper;
-import com.fozf.jsoccwebservices.controllers.CourseCategoryController;
+import com.fozf.jsoccwebservices.data.DBBootstrapper;
 import com.fozf.jsoccwebservices.controllers.StudentController;
 import com.fozf.jsoccwebservices.storage.StorageService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -40,13 +37,13 @@ public class StudentControllerTest {
 
     @Test
     public void getAllStudents() throws  Exception {
-        given(studentController.getAllStudents()).willReturn(DataBootstrapper.students);
+        given(studentController.getAllStudents()).willReturn(DBBootstrapper.students);
 
 
     mvc.perform(get(StudentController.BASE_URL.concat("/"))
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", hasSize(1)))
-            .andExpect(jsonPath("$[0].firstName", is(DataBootstrapper.students.get(0).getFirstName())));
+            .andExpect(jsonPath("$[0].firstName", is(DBBootstrapper.students.get(0).getFirstName())));
     }
 }

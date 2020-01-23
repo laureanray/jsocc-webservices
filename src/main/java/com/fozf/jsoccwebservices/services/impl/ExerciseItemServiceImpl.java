@@ -1,7 +1,8 @@
-package com.fozf.jsoccwebservices.services;
+package com.fozf.jsoccwebservices.services.impl;
 
 import com.fozf.jsoccwebservices.domain.ExerciseItem;
 import com.fozf.jsoccwebservices.repositories.ExerciseItemRepository;
+import com.fozf.jsoccwebservices.services.ExerciseItemService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

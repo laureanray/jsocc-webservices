@@ -1,8 +1,9 @@
-package com.fozf.jsoccwebservices.services;
+package com.fozf.jsoccwebservices.services.impl;
 
 import com.fozf.jsoccwebservices.domain.Login;
 import com.fozf.jsoccwebservices.domain.Student;
 import com.fozf.jsoccwebservices.repositories.StudentRepository;
+import com.fozf.jsoccwebservices.services.StudentService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.Query;
@@ -30,7 +31,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Student findByUserName(String username) {
-            return studentRepository.findByUserName(username);
+            return studentRepository.findByUsername(username);
     }
 
     @Override

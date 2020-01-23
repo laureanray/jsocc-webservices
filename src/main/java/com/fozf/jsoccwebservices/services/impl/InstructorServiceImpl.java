@@ -1,7 +1,8 @@
-package com.fozf.jsoccwebservices.services;
+package com.fozf.jsoccwebservices.services.impl;
 
 import com.fozf.jsoccwebservices.domain.Instructor;
 import com.fozf.jsoccwebservices.repositories.InstructorRepository;
+import com.fozf.jsoccwebservices.services.InstructorService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class InstructorServiceImpl implements InstructorService {
 
     @Override
     public Instructor findByUserName(String username) {
-        return instructorRepository.findByUserName(username);
+        return instructorRepository.findByUsername(username);
     }
 
     @Override

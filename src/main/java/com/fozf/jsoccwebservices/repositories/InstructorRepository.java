@@ -6,6 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface InstructorRepository extends JpaRepository<Instructor, Long> {
-    @Query("SELECT i from Instructor i where i.username = ?1")
-    Instructor findByUserName(String username);
+    Instructor findByUsername(String username);
 }

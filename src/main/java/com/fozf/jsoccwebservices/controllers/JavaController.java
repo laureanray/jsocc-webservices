@@ -39,7 +39,6 @@ public class JavaController {
 
         javaCompiler.Compile(compileTask)
             .registerOnCompileListener(res -> {
-                System.out.println(res);
                 deferredResult.setResult(res);
             });
 

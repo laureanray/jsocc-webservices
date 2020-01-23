@@ -1,4 +1,4 @@
-package com.fozf.jsoccwebservices.bootstrap;
+package com.fozf.jsoccwebservices.data;
 
 import com.fozf.jsoccwebservices.domain.*;
 import com.fozf.jsoccwebservices.repositories.*;
@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class DataBootstrapper implements CommandLineRunner {
+public class DBBootstrapper implements CommandLineRunner {
 
 
     // Static student list for testing
@@ -26,12 +26,12 @@ public class DataBootstrapper implements CommandLineRunner {
     private ExerciseItemRepository exerciseItemRepository;
     private CourseTemplateRepository courseTemplateRepository;
 
-    public DataBootstrapper(StudentRepository studentRepository,
-                            InstructorRepository instructorRepository,
-                            CourseRepository courseRepository,
-                            ExerciseRepository exerciseRepository,
-                            ExerciseItemRepository exerciseItemRepository,
-                            CourseTemplateRepository courseTemplateRepository
+    public DBBootstrapper(StudentRepository studentRepository,
+                          InstructorRepository instructorRepository,
+                          CourseRepository courseRepository,
+                          ExerciseRepository exerciseRepository,
+                          ExerciseItemRepository exerciseItemRepository,
+                          CourseTemplateRepository courseTemplateRepository
         ) {
         this.studentRepository = studentRepository;
         this.instructorRepository = instructorRepository;

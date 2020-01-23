@@ -1,7 +1,8 @@
-package com.fozf.jsoccwebservices.services;
+package com.fozf.jsoccwebservices.services.impl;
 
 import com.fozf.jsoccwebservices.domain.TestCase;
 import com.fozf.jsoccwebservices.repositories.TestCaseRepository;
+import com.fozf.jsoccwebservices.services.TestCaseService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

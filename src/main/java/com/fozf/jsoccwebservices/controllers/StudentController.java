@@ -11,6 +11,7 @@ import com.fozf.jsoccwebservices.services.StudentService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -37,6 +38,7 @@ public class StudentController {
     }
 
     @GetMapping()
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<Student> getAllStudents(){
         return studentService.findAllStudent();
     }

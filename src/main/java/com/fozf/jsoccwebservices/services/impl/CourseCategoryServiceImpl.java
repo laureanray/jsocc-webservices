@@ -1,7 +1,8 @@
-package com.fozf.jsoccwebservices.services;
+package com.fozf.jsoccwebservices.services.impl;
 
 import com.fozf.jsoccwebservices.domain.CourseCategory;
 import com.fozf.jsoccwebservices.repositories.CourseCategoryRepository;
+import com.fozf.jsoccwebservices.services.CourseCategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

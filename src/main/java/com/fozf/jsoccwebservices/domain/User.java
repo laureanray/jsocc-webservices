@@ -8,7 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-
+import java.util.Collection;
 
 
 @MappedSuperclass
@@ -25,21 +25,13 @@ public class User {
     private String password;
     @Column(unique = true, nullable = false)
     private String username;
+    private boolean enabled;
+    private boolean tokenExpired;
 
     private String profileImageURL;
 
     private boolean isStudent;
 
-    public boolean isStudent() {
-        return isStudent;
-    }
-
-    public void setStudent(boolean student) {
-        isStudent = student;
-    }
-
-    public User() {
-    }
 
     public long getId() {
         return id;
@@ -89,6 +81,22 @@ public class User {
         this.username = username;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isTokenExpired() {
+        return tokenExpired;
+    }
+
+    public void setTokenExpired(boolean tokenExpired) {
+        this.tokenExpired = tokenExpired;
+    }
+
     public String getProfileImageURL() {
         return profileImageURL;
     }
@@ -96,4 +104,13 @@ public class User {
     public void setProfileImageURL(String profileImageURL) {
         this.profileImageURL = profileImageURL;
     }
+
+    public boolean isStudent() {
+        return isStudent;
+    }
+
+    public void setStudent(boolean student) {
+        isStudent = student;
+    }
+
 }
