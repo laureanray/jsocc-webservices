@@ -34,7 +34,7 @@ public class LoginController {
         Student student = studentService.findByUserName(login.getUsername());
         Instructor instructor = instructorService.findByUserName(login.getUsername());
         if(student != null){
-            student.setInstructor(false);
+            student.setStudent(true);
 
             if(BCrypt.checkpw(login.getPassword(), student.getPassword())){
                 return ResponseEntity.ok(student);
@@ -42,7 +42,7 @@ public class LoginController {
                 return ResponseEntity.badRequest().build();
             }
         }else if(instructor != null){
-            instructor.setInstructor(true);
+            instructor.setStudent(false);
 
             if(BCrypt.checkpw(login.getPassword(),  instructor.getPassword())){
                 return ResponseEntity.ok(instructor);

@@ -37,7 +37,7 @@ public class StudentController {
     }
 
     @GetMapping()
-    List<Student> getAllCustomers(){
+    public List<Student> getAllStudents(){
         return studentService.findAllStudent();
     }
 

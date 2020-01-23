@@ -17,20 +17,10 @@ import java.util.Set;
 @Setter
 @Entity
 public class Student extends User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String firstName;
-    private String lastName;
-    @Column(unique = true, nullable = false)
-    private String email;
-    private String password;
-    @Column(unique = true, nullable = false)
-    private String username;
-
     @ManyToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     private Set<Course> courses = new HashSet<>();
 
-    public Student( ) {
+    public Student() {
+        super.setStudent(true);
     }
 }

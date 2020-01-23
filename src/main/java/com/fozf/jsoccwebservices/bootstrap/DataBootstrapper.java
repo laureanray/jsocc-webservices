@@ -13,6 +13,12 @@ import java.util.List;
 @Component
 public class DataBootstrapper implements CommandLineRunner {
 
+
+    // Static student list for testing
+
+    public static List<Student> students = new ArrayList<>();
+    public static List<Instructor> instructors = new ArrayList<>();
+
     private StudentRepository studentRepository;
     private InstructorRepository instructorRepository;
     private CourseRepository courseRepository;
@@ -39,6 +45,7 @@ public class DataBootstrapper implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+
         Student student1 = new Student();
         student1.setFirstName("Laurean Ray");
         student1.setLastName("Bahala");
@@ -46,12 +53,17 @@ public class DataBootstrapper implements CommandLineRunner {
         student1.setEmail("laureanraybahala@gmail.com");
         student1.setUsername("laureanray");
 
+
+        students.add(student1);
+
         Instructor instructor1 = new Instructor();
         instructor1.setFirstName("Juan");
         instructor1.setLastName("Dela Cruz");
         instructor1.setUsername("juan");
         instructor1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
         instructor1.setEmail("juan@gmail.com");
+
+        instructors.add(instructor1);
 
         Course course1 = new Course();
         course1.setCourseTitle("Basic Java Programming");
@@ -157,8 +169,14 @@ public class DataBootstrapper implements CommandLineRunner {
             instructorRepository.save(instructor1);
         }
 
+
+
         if(studentRepository.count() == 0){
-            studentRepository.save(student1);
+
+            for(Student student : students) {
+                studentRepository.save(student);
+            }
+
         }
 
         if(courseTemplateRepository.count() == 0){
