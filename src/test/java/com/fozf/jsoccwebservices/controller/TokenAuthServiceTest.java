@@ -22,4 +22,9 @@ public class TokenAuthServiceTest {
     public void shouldNotAllowAccessToUnauthenticatedUsers() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/api/v1/students")).andExpect(status().isUnauthorized());
     }
+
+    @Test
+    public void shouldReturnTokenOnCorrectCredentials() throws Exception {
+
+    }
 }
