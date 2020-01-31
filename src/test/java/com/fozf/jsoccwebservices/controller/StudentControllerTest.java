@@ -68,12 +68,22 @@ public class StudentControllerTest {
     }
 
     @Test
-    public void shouldNotAllowAccess() throws  Exception {
+    public void shouldNotAllowAccessIfTokenNotProvided() throws  Exception {
         // given(studentController.getAllStudents()).willReturn(DBBootstrapper.students);
 
-        System.out.println(obtainAccessToken("admin", "test"));
         mvc.perform(MockMvcRequestBuilders.get("/api/v1/students"))
             .andExpect(status().isUnauthorized());
+
+    }
+
+    @Test
+    public void shouldReturnAllStudents() throws Exception {
+
+        String token = obtainAccessToken("admin", "test");
+        System.out.println(token);
+        mvc.perform(get("/api/v1/students/")
+                .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
 
     }
 }
