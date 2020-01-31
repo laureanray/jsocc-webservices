@@ -20,7 +20,8 @@ public class TokenAuthServiceTest {
 
     @Test
     public void shouldNotAllowAccessToUnauthenticatedUsers() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/api/v1/students")).andExpect(status().isUnauthorized());
+        mvc.perform(MockMvcRequestBuilders.get("/api/v1/students"))
+                .andExpect(status().isUnauthorized());
     }
 
     @Test
