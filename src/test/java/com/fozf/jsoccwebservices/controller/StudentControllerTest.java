@@ -3,8 +3,11 @@ package com.fozf.jsoccwebservices.controller;
 import com.fozf.jsoccwebservices.data.DBBootstrapper;
 import com.fozf.jsoccwebservices.controllers.StudentController;
 import com.fozf.jsoccwebservices.domain.Student;
+import com.fozf.jsoccwebservices.repositories.StudentRepository;
+import com.fozf.jsoccwebservices.services.StudentService;
 import com.fozf.jsoccwebservices.storage.StorageService;
 import com.google.gson.Gson;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -46,6 +49,14 @@ public class StudentControllerTest {
 
     //@MockBean
     //private StorageService storageService;
+
+    @MockBean
+    private StudentRepository studentRepository;
+
+    @Before
+    public void clearDatabase(){
+        studentRepository.deleteAll();
+    }
 
     private String obtainAccessToken(String username, String password) throws Exception {
 
@@ -102,7 +113,7 @@ public class StudentControllerTest {
         mvc.perform(post("/api/v1/students/register")
             .contentType(MediaType.APPLICATION_JSON)
             .content(new Gson().toJson(student)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
     }
 }
