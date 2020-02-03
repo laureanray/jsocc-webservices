@@ -1,9 +1,19 @@
 package com.fozf.jsoccwebservices.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Entity
+@Getter
+@Setter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -11,13 +21,13 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles")
-    private Collection<Student> students;
+    private Set<Student> students;
 
     @ManyToMany(mappedBy = "roles")
-    private Collection<Instructor> instructors;
+    private Set<Instructor> instructors;
 
     @ManyToMany(mappedBy = "roles")
-    private Collection<Admin> admins;
+    private Set<Admin> admins;
 
 
     @ManyToMany
@@ -27,8 +37,8 @@ public class Role {
                     name = "role_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn (
                     name = "privilege_id", referencedColumnName = "id"))
-
-    private Collection<Privilege> privileges;
+    @JsonIgnoreProperties("roles")
+    private List<Privilege> privileges;
 
 
     public Role() {
@@ -41,43 +51,5 @@ public class Role {
     }
 
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Collection<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(Collection<Student> students) {
-        this.students = students;
-    }
-
-    public Collection<Instructor> getInstructors() {
-        return instructors;
-    }
-
-    public void setInstructors(Collection<Instructor> instructors) {
-        this.instructors = instructors;
-    }
-
-    public Collection<Privilege> getPrivileges() {
-        return privileges;
-    }
-
-    public void setPrivileges(Collection<Privilege> privileges) {
-        this.privileges = privileges;
-    }
 }

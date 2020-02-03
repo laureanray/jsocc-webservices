@@ -4,18 +4,22 @@ import com.fozf.jsoccwebservices.domain.Course;
 import com.fozf.jsoccwebservices.domain.Instructor;
 import com.fozf.jsoccwebservices.domain.Login;
 import com.fozf.jsoccwebservices.domain.Student;
+import com.fozf.jsoccwebservices.repositories.RoleRepository;
 import com.fozf.jsoccwebservices.repositories.StudentRepository;
 import com.fozf.jsoccwebservices.services.CourseService;
 import com.fozf.jsoccwebservices.services.InstructorService;
 import com.fozf.jsoccwebservices.services.StudentService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -28,13 +32,15 @@ public class StudentController {
     private final InstructorService instructorService;
     private final CourseService courseService;
     private final StudentRepository studentRepository;
+    private final RoleRepository roleRepository;
 
-    public StudentController(StudentService studentService, InstructorService instructorService, CourseService courseService, StudentRepository studentRepository)
+    public StudentController(StudentService studentService, InstructorService instructorService, CourseService courseService, StudentRepository studentRepository, RoleRepository roleRepository)
     {
         this.studentService = studentService;
         this.instructorService = instructorService;
         this.courseService = courseService;
         this.studentRepository = studentRepository;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping()
@@ -44,15 +50,14 @@ public class StudentController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_STUDENT') or hasAuthority('ROLE_INSTRUCTOR') or hasAuthority('ROLE_ADMIN')")
     public Student getCustomerById(@PathVariable Long id){
         return studentService.findCustomerById(id);
     }
 
-    @PostMapping("/register")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Student> saveStudent(@RequestBody Student student){
+    @PostMapping(value = "/register", consumes = "application/json;charset=UTF-8")
+    public ResponseEntity<Student> saveStudent(@Valid @RequestBody Student student){
         // Check first if username is taken in both tables
-
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(student.getId())
@@ -60,8 +65,14 @@ public class StudentController {
 
         Instructor instructor = instructorService.findByUserName(student.getUsername() );
         if(instructor == null){
+            // this means this doesnt conflict to other user
+
+            // set roles first
+            student.setRoles(Arrays.asList(roleRepository.findByName("ROLE_STUDENT")));
             return ResponseEntity.created(uri).body(studentService.saveStudent(student));
         }
+
+
         return ResponseEntity.badRequest().build();
 
     }

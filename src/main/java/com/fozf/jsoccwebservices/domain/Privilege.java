@@ -1,10 +1,19 @@
 package com.fozf.jsoccwebservices.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 
 @Entity
+@Getter
+@Setter
 public class Privilege {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -12,8 +21,10 @@ public class Privilege {
 
     private String name;
 
+
     @ManyToMany(mappedBy = "privileges")
-    private Collection<Role> roles;
+    @JsonIgnoreProperties("privileges")
+    private List<Role> roles;
 
     public Privilege() {
         super();
@@ -24,31 +35,6 @@ public class Privilege {
         this.name = name;
     }
 
-    //
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(final Collection<Role> roles) {
-        this.roles = roles;
-    }
 
     @Override
     public int hashCode() {

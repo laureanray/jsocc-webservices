@@ -52,7 +52,7 @@ public class DBBootstrapper implements CommandLineRunner {
         student1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
         student1.setEmail("laureanraybahala@gmail.com");
         student1.setUsername("laureanray");
-
+        student1.setStudent(true);
 
         students.add(student1);
 

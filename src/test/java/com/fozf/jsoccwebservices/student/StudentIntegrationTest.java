@@ -1,4 +1,4 @@
-package com.fozf.jsoccwebservices.controller;
+package com.fozf.jsoccwebservices.student;
 
 import com.fozf.jsoccwebservices.data.DBBootstrapper;
 import com.fozf.jsoccwebservices.controllers.StudentController;
@@ -7,18 +7,18 @@ import com.fozf.jsoccwebservices.repositories.StudentRepository;
 import com.fozf.jsoccwebservices.services.StudentService;
 import com.fozf.jsoccwebservices.storage.StorageService;
 import com.google.gson.Gson;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -26,38 +26,47 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static org.hamcrest.Matchers.hasSize;
+import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.hamcrest.core.Is.is;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class StudentControllerTest {
+@RunWith(SpringRunner.class)
+public class StudentIntegrationTest {
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private StudentRepository studentRepository;
     //@MockBean
     //private StudentController studentController;
+
+//    @MockBean
+//    private StudentRepository studentRepository;
 
     //@MockBean
     //private StorageService storageService;
 
-    @MockBean
-    private StudentRepository studentRepository;
-
+    private Student student1 = new Student();
+    private Student student2 = new Student();
+    final String ACCEPT  = "application/json;charset=UTF-8";
+//
+//
     @Before
     public void clearDatabase(){
-        studentRepository.deleteAll();
+        //studentRepository.deleteAll();
+        student1.setFirstName("test student");
+        student1.setLastName("lastname");
+        student1.setEmail("email@example.com");
+        student1.setUsername("testers");
     }
-
+//
+//
     private String obtainAccessToken(String username, String password) throws Exception {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -70,7 +79,7 @@ public class StudentControllerTest {
                 = mvc.perform(post("/oauth/token")
                 .params(params)
                 .with(httpBasic("testjwtclientid","XY7kmzoNzl100"))
-                .accept("application/json;charset=UTF-8"))
+                .accept(ACCEPT))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"));
 
@@ -95,25 +104,53 @@ public class StudentControllerTest {
         String token = obtainAccessToken("admin", "test");
         System.out.println(token);
         mvc.perform(get("/api/v1/students/")
-                .header("Authorization", "Bearer " + token))
+                .header("Authorization", "Bearer " + token)
+                .accept(ACCEPT))
                 .andExpect(status().isOk());
+
 
     }
 
     @Test
-    public void shouldSuccessfullyRegisterStudentAndHaveRole() throws Exception {
-        Student student = new Student();
-        student.setFirstName("Test Student");
-        student.setLastName("Lastname");
-        student.setEmail("email@example.com");
-        student.setEnabled(false);
-        student.setUsername("tester");
-
-
-        mvc.perform(post("/api/v1/students/register")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(new Gson().toJson(student)))
-                .andExpect(status().isCreated());
+    public void shouldNotRegisterIfRequiredIsMissing() throws Exception {
+        mvc.perform(post("/api/v1/students/register/")
+                .accept(ACCEPT)
+                .characterEncoding("utf-8")
+                .content(new Gson().toJson(student2))
+                .contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 
     }
+//
+//    @Test
+//    public void shouldSuccessfullyRegisterStudentAndHaveRole() throws Exception {
+//        String payload = new Gson().toJson(student1);
+//        when(studentRepository.save(any(Student.class))).thenReturn(student1);
+//        System.out.println(payload);
+//        this.mvc.perform(post("/api/v1/students/register")
+//                .accept("application/json;charset=UTF-8")
+//                .contentType(MediaType.APPLICATION_JSON)
+//            .content(payload))
+//                .andExpect(status().isCreated());
+//
+//
+//        Student student = studentRepository.findByUsername(student1.getUsername());
+//
+//        Assert.assertEquals(student1, student);
+//
+//        System.out.println("Finsih");
+//
+//        System.out.println("Tset");
+//    }
+//
+//
+//    @Test
+//    public void shouldReturnStudent() throws Exception {
+//        mvc.perform(get("/api/v1/students/find/laureanray"))
+//                .andExpect(status().isOk());
+//
+//        Student student = studentRepository.findByUsername("laureanray");
+//        Assert.assertEquals(DBBootstrapper.students.get(0), student);
+//    }
 }

@@ -1,4 +1,4 @@
-package com.fozf.jsoccwebservices.controller;
+package com.fozf.jsoccwebservices.auth;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,10 +11,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TokenAuthServiceTest {
+@RunWith(SpringRunner.class)
+public class TokenAuthServiceIntegrationTest {
     @Autowired
     private MockMvc mvc;
 

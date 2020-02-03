@@ -43,6 +43,5 @@ public class Course {
     private Set<Exercise> exercises = new HashSet<>();
 
     @ManyToMany(mappedBy = "courses", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
-    @JsonIgnore
     private Set<Student> students = new HashSet<>();
 }
