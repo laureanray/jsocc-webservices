@@ -54,7 +54,7 @@ public class StudentIntegrationTest {
 
     private Student student1 = new Student();
     private Student student2 = new Student();
-    final String ACCEPT  = "application/json;charset=UTF-8";
+    final static String ACCEPT  = "application/json;charset=UTF-8";
 //
 //
     @Before

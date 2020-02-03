@@ -61,7 +61,7 @@ public class InitialDataLoader implements
         Admin admin = new Admin();
         admin.setFirstName("Test");
         admin.setLastName("Test");
-        admin.setPassword(passwordEncoder.encode("test"));
+        admin.setPassword(passwordEncoder.encode("P@$$w0rd"));
         admin.setEmail("test@test.com");
         admin.setRoles(Arrays.asList(adminRole));
         admin.setUsername("admin");

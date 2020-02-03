@@ -1,6 +1,8 @@
 package com.fozf.jsoccwebservices.auth;
 
 import com.fozf.jsoccwebservices.data.InitialDataLoader;
+import com.fozf.jsoccwebservices.repositories.AdminRepository;
+import com.fozf.jsoccwebservices.student.StudentIntegrationTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import static org.springframework.http.HttpHeaders.ACCEPT;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -24,6 +26,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 public class TokenAuthServiceIntegrationTest {
+
+
     @Autowired
     private MockMvc mvc;
 
@@ -32,10 +36,14 @@ public class TokenAuthServiceIntegrationTest {
     final String student = "student";
     final String password = "P@$$w0rd";
 
+    final static String ACCEPT  = "application/json;charset=UTF-8";
+
+
+
 
     @Test
     public void shouldNotAllowAccessToUnauthenticatedUsers() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/api/v1/students"))
+        mvc.perform(get("/api/v1/students"))
                 .andExpect(status().isUnauthorized());
     }
 
@@ -64,6 +72,11 @@ public class TokenAuthServiceIntegrationTest {
 
         // Test if token have access in protected routes
 
-
+        mvc.perform(get("/api/v1/students/")
+            .accept(ACCEPT)
+            .header("Authorization", "Bearer ".concat(token)))
+                .andExpect(status().isOk());
     }
+
+
 }
