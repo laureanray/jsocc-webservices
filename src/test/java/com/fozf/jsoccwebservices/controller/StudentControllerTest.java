@@ -2,7 +2,9 @@ package com.fozf.jsoccwebservices.controller;
 
 import com.fozf.jsoccwebservices.data.DBBootstrapper;
 import com.fozf.jsoccwebservices.controllers.StudentController;
+import com.fozf.jsoccwebservices.domain.Student;
 import com.fozf.jsoccwebservices.storage.StorageService;
+import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -77,12 +79,29 @@ public class StudentControllerTest {
     }
 
     @Test
-    public void shouldReturnAllStudents() throws Exception {
+    public void shouldReturnAllStudentsIfAdmin() throws Exception {
 
         String token = obtainAccessToken("admin", "test");
         System.out.println(token);
         mvc.perform(get("/api/v1/students/")
                 .header("Authorization", "Bearer " + token))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    public void shouldSuccessfullyRegisterStudentAndHaveRole() throws Exception {
+        Student student = new Student();
+        student.setFirstName("Test Student");
+        student.setLastName("Lastname");
+        student.setEmail("email@example.com");
+        student.setEnabled(false);
+        student.setUsername("tester");
+
+
+        mvc.perform(post("/api/v1/students/register")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(new Gson().toJson(student)))
                 .andExpect(status().isOk());
 
     }
