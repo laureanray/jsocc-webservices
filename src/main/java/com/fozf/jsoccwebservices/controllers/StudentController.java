@@ -2,16 +2,12 @@ package com.fozf.jsoccwebservices.controllers;
 
 import com.fozf.jsoccwebservices.domain.Course;
 import com.fozf.jsoccwebservices.domain.Instructor;
-import com.fozf.jsoccwebservices.domain.Login;
 import com.fozf.jsoccwebservices.domain.Student;
 import com.fozf.jsoccwebservices.repositories.RoleRepository;
 import com.fozf.jsoccwebservices.repositories.StudentRepository;
 import com.fozf.jsoccwebservices.services.CourseService;
 import com.fozf.jsoccwebservices.services.InstructorService;
 import com.fozf.jsoccwebservices.services.StudentService;
-import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +29,7 @@ public class StudentController {
     private final CourseService courseService;
     private final StudentRepository studentRepository;
     private final RoleRepository roleRepository;
+    private final String ALL = "hasAuthority('ROLE_STUDENT') or hasAuthority('ROLE_INSTRUCTOR') or hasAuthority('ROLE_ADMIN')";
 
     public StudentController(StudentService studentService, InstructorService instructorService, CourseService courseService, StudentRepository studentRepository, RoleRepository roleRepository)
     {
@@ -44,15 +41,15 @@ public class StudentController {
     }
 
     @GetMapping()
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize(ALL)
     public List<Student> getAllStudents(){
         return studentService.findAllStudent();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAuthority('ROLE_STUDENT') or hasAuthority('ROLE_INSTRUCTOR') or hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize(ALL)
     public Student getCustomerById(@PathVariable Long id){
-        return studentService.findCustomerById(id);
+        return studentService.findStudentById(id);
     }
 
     @PostMapping(value = "/register", consumes = "application/json;charset=UTF-8")
@@ -77,21 +74,7 @@ public class StudentController {
 
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Student> login(@RequestBody Login login){
-//        System.out.println(login.getUsername());
-        Student student = studentService.findByUserName(login.getUsername());
-        if(student == null){
-            return ResponseEntity.notFound().build();
-        }
-;
-        if(BCrypt.checkpw(login.getPassword(), student.getPassword())){
-            return ResponseEntity.ok(student);
-        }else{
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
+    @PreAuthorize(ALL)
     @GetMapping("/find/{username}")
     public ResponseEntity<Student> findStudentByUsername(@PathVariable String username){
         Student student = studentService.findByUserName(username);
@@ -101,6 +84,7 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
+    @PreAuthorize(ALL)
     @PostMapping("/enroll/{username}/{courseId}")
     public ResponseEntity<Student> enrollStudentToCourse(@PathVariable String username, @PathVariable int courseId){
         Student studentToEnroll = studentService.findByUserName(username);
@@ -122,11 +106,4 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
-//    @PostMapping(value = "/find/{username}")
-//    public Student findByUsername(@)
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.ACCEPTED)
-//    public Student loginStudent(@RequestBody Login login){
-            //        return studentService.loginStudent(login);
-//    }
 }

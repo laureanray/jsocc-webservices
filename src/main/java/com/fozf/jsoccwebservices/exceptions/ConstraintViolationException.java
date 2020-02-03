@@ -35,7 +35,7 @@ public class ConstraintViolationException extends ResponseEntityExceptionHandler
 
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("timestamp", new Date());
-        body.put("status", 400);
+        body.put("status", status.value());
 
         //Get all errors
         List<String> errors = ex.getBindingResult()
