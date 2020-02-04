@@ -1,10 +1,8 @@
 package com.fozf.jsoccwebservices.data;
 
-import com.fozf.jsoccwebservices.domain.Admin;
-import com.fozf.jsoccwebservices.domain.Privilege;
-import com.fozf.jsoccwebservices.domain.Role;
-import com.fozf.jsoccwebservices.domain.User;
+import com.fozf.jsoccwebservices.domain.*;
 import com.fozf.jsoccwebservices.repositories.*;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -13,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -58,6 +57,10 @@ public class InitialDataLoader implements
         createRoleIfNotFound("ROLE_INSTRUCTOR", Arrays.asList(readPrivilege));
 
         Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+        Role studentRole = roleRepository.findByName("ROLE_STUDENT");
+        Role instructorRole = roleRepository.findByName("ROLE_INSTRUCTOR");
+
+
         Admin admin = new Admin();
         admin.setFirstName("Test");
         admin.setLastName("Test");
@@ -67,8 +70,40 @@ public class InitialDataLoader implements
         admin.setUsername("admin");
         admin.setEnabled(true);
 
+
+        Student student1 = new Student();
+        student1.setFirstName("Laurean Ray");
+        student1.setLastName("Bahala");
+        student1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
+        student1.setEmail("laureanraybahala@gmail.com");
+        student1.setUsername("laureanray");
+
+        Instructor instructor1 = new Instructor();
+        instructor1.setFirstName("Juan");
+        instructor1.setLastName("Dela Cruz");
+        instructor1.setUsername("juan");
+        instructor1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
+        instructor1.setEmail("juan@gmail.com");
+
+        Course course1 = new Course();
+        course1.setCourseTitle("Basic Java Programming");
+        course1.setCourseDescription("This course is an introductory to the Java programming language.");
+        course1.setCourseCode("COEN3400");
+        course1.setEnrollmentKey("basicjava");
+        course1.setInstructor(instructor1);
+        course1.setDateAdded(new Date());
+        course1.setCourseProgrammingLanguage("Java");
+
         if(adminRepository.findAll().isEmpty()){
             adminRepository.save(admin);
+        }
+
+        if(studentRepository.findAll().isEmpty()){
+
+        }
+
+        if(instructorRepository.findAll().isEmpty()){
+
         }
 
         alreadySetup = true;

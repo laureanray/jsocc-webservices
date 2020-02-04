@@ -45,7 +45,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Student saveStudent(Student student) {
         student.setPassword(passwordEncoder.encode(student.getPassword()));
-        student.setRoles(Arrays.asList(roleRepository.findByName("ROLE_STUDENT")));
+        //student.setRoles(Arrays.asList(roleRepository.findByName("ROLE_STUDENT")));
         return studentRepository.save(student);
     }
 

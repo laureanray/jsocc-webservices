@@ -176,7 +176,7 @@ public class DBBootstrapper implements CommandLineRunner {
         if(studentRepository.count() == 0){
 
             for(Student student : students) {
-                studentService.saveStudent(student);
+                studentRepository.save(student);
             }
 
         }
