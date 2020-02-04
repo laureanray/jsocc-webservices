@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -65,7 +66,7 @@ public class StudentIntegrationTest {
 //
     @Before
     public void clearDatabase() throws Exception {
-        //studentRepository.deleteAll();
+        studentRepository.deleteAll();
         student1.setFirstName("test student");
         student1.setLastName("lastname");
         student1.setEmail("email@example.com");
@@ -129,30 +130,28 @@ public class StudentIntegrationTest {
 
     @Test
     public void shouldSuccessfullyRegisterStudentAndHaveRole() throws Exception {
+        // Wipe DB here?
         String payload = new Gson().toJson(student1);
         System.out.println(payload);
         this.mvc.perform(post("/api/v1/students/register")
                 .accept("application/json;charset=UTF-8")
                 .contentType(MediaType.APPLICATION_JSON)
             .content(payload))
+                .andExpect(jsonPath("$.roles", hasSize(1)))
                 .andExpect(status().isCreated());
 
 
         Student student = studentRepository.findByUsername(student1.getUsername());
-
-        Assert.assertEquals(student1.getId(), student.getId());
+        Assert.assertEquals(student.getUsername(), student1.getUsername());
     }
 
     @Test
     public void shouldReturnStudent() throws Exception {
-
-        mvc.perform(get("/api/v1/students/find/laureanray")
+        // since database is wiped we should call test register
+        shouldSuccessfullyRegisterStudentAndHaveRole();
+        mvc.perform(get("/api/v1/students/find/".concat(student1.getUsername()))
                 .accept(ACCEPT)
                 .header("Authorization", "Bearer ".concat(adminToken)))
                 .andExpect(status().isOk());
-
-
-
-
     }
 }

@@ -1,5 +1,6 @@
 package com.fozf.jsoccwebservices.auth;
 
+import com.fozf.jsoccwebservices.data.DBBootstrapper;
 import com.fozf.jsoccwebservices.data.InitialDataLoader;
 import com.fozf.jsoccwebservices.repositories.AdminRepository;
 import com.fozf.jsoccwebservices.student.StudentIntegrationTest;
@@ -32,10 +33,9 @@ public class TokenAuthServiceIntegrationTest {
     private MockMvc mvc;
 
     final String admin = "admin";
-    final String instructor = "instructor";
-    final String student = "student";
+    final String instructor = "juan";
+    final String student = "laureanray";
     final String password = "P@$$w0rd";
-
     final static String ACCEPT  = "application/json;charset=UTF-8";
 
 
@@ -49,8 +49,6 @@ public class TokenAuthServiceIntegrationTest {
 
     @Test
     public void shouldReturnTokenForAdmin() throws Exception {
-
-
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
         params.add("client_id", "testjwtclientid");
@@ -78,5 +76,60 @@ public class TokenAuthServiceIntegrationTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    public void shouldReturnTokenForStudent() throws Exception {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "password");
+        params.add("client_id", "testjwtclientid");
+        params.add("username", student);
+        params.add("password", password);
 
-}
+        ResultActions result
+                = mvc.perform(post("/oauth/token")
+                .params(params)
+                .with(httpBasic("testjwtclientid","XY7kmzoNzl100"))
+                .accept(ACCEPT))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"));
+
+        String resultString = result.andReturn().getResponse().getContentAsString();
+
+        JacksonJsonParser jsonParser = new JacksonJsonParser();
+        String token = jsonParser.parseMap(resultString).get("access_token").toString();
+
+        // Test if token have access in protected routes
+
+        mvc.perform(get("/api/v1/students/")
+                .accept(ACCEPT)
+                .header("Authorization", "Bearer ".concat(token)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldReturnTokenForInstructor() throws Exception {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "password");
+        params.add("client_id", "testjwtclientid");
+        params.add("username", instructor);
+        params.add("password", password);
+
+        ResultActions result
+                = mvc.perform(post("/oauth/token")
+                .params(params)
+                .with(httpBasic("testjwtclientid", "XY7kmzoNzl100"))
+                .accept(ACCEPT))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"));
+
+        String resultString = result.andReturn().getResponse().getContentAsString();
+
+        JacksonJsonParser jsonParser = new JacksonJsonParser();
+        String token = jsonParser.parseMap(resultString).get("access_token").toString();
+
+        // Test if token have access in protected routes
+        mvc.perform(get("/api/v1/students/")
+                .accept(ACCEPT)
+                .header("Authorization", "Bearer ".concat(token)))
+                .andExpect(status().isOk());
+        }
+    }

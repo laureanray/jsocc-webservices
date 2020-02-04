@@ -4,8 +4,8 @@ import com.fozf.jsoccwebservices.domain.Student;
 import com.fozf.jsoccwebservices.repositories.RoleRepository;
 import com.fozf.jsoccwebservices.repositories.StudentRepository;
 import com.fozf.jsoccwebservices.services.StudentService;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -18,9 +18,12 @@ public class StudentServiceImpl implements StudentService {
     private final StudentRepository studentRepository;
     private final RoleRepository roleRepository;
 
-    public StudentServiceImpl(StudentRepository studentRepository, RoleRepository roleRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public StudentServiceImpl(StudentRepository studentRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -41,11 +44,11 @@ public class StudentServiceImpl implements StudentService {
     @ResponseStatus(HttpStatus.CREATED)
     @Override
     public Student saveStudent(Student student) {
-        String hashed = BCrypt.hashpw(student.getPassword(), BCrypt.gensalt(10));
-        student.setPassword(hashed);
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
         student.setRoles(Arrays.asList(roleRepository.findByName("ROLE_STUDENT")));
         return studentRepository.save(student);
     }
+
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @Override
