@@ -55,15 +55,22 @@ public class StudentIntegrationTest {
     private Student student1 = new Student();
     private Student student2 = new Student();
     final static String ACCEPT  = "application/json;charset=UTF-8";
-//
+    private String adminToken;
+
+    public StudentIntegrationTest() throws Exception {
+        //studentRepository.deleteAll();
+    }
+
+    //
 //
     @Before
-    public void clearDatabase(){
+    public void clearDatabase() throws Exception {
         //studentRepository.deleteAll();
         student1.setFirstName("test student");
         student1.setLastName("lastname");
         student1.setEmail("email@example.com");
         student1.setUsername("testers");
+        adminToken = obtainAccessToken("admin", "P@$$w0rd");
     }
 //
 //
@@ -100,11 +107,8 @@ public class StudentIntegrationTest {
 
     @Test
     public void shouldReturnAllStudentsIfAdmin() throws Exception {
-
-        String token = obtainAccessToken("admin", "test");
-        System.out.println(token);
         mvc.perform(get("/api/v1/students/")
-                .header("Authorization", "Bearer " + token)
+                .header("Authorization", "Bearer " + adminToken)
                 .accept(ACCEPT))
                 .andExpect(status().isOk());
 
@@ -122,35 +126,33 @@ public class StudentIntegrationTest {
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
 
     }
-//
-//    @Test
-//    public void shouldSuccessfullyRegisterStudentAndHaveRole() throws Exception {
-//        String payload = new Gson().toJson(student1);
-//        when(studentRepository.save(any(Student.class))).thenReturn(student1);
-//        System.out.println(payload);
-//        this.mvc.perform(post("/api/v1/students/register")
-//                .accept("application/json;charset=UTF-8")
-//                .contentType(MediaType.APPLICATION_JSON)
-//            .content(payload))
-//                .andExpect(status().isCreated());
-//
-//
-//        Student student = studentRepository.findByUsername(student1.getUsername());
-//
-//        Assert.assertEquals(student1, student);
-//
-//        System.out.println("Finsih");
-//
-//        System.out.println("Tset");
-//    }
-//
-//
-//    @Test
-//    public void shouldReturnStudent() throws Exception {
-//        mvc.perform(get("/api/v1/students/find/laureanray"))
-//                .andExpect(status().isOk());
-//
-//        Student student = studentRepository.findByUsername("laureanray");
-//        Assert.assertEquals(DBBootstrapper.students.get(0), student);
-//    }
+
+    @Test
+    public void shouldSuccessfullyRegisterStudentAndHaveRole() throws Exception {
+        String payload = new Gson().toJson(student1);
+        System.out.println(payload);
+        this.mvc.perform(post("/api/v1/students/register")
+                .accept("application/json;charset=UTF-8")
+                .contentType(MediaType.APPLICATION_JSON)
+            .content(payload))
+                .andExpect(status().isCreated());
+
+
+        Student student = studentRepository.findByUsername(student1.getUsername());
+
+        Assert.assertEquals(student1.getId(), student.getId());
+    }
+
+    @Test
+    public void shouldReturnStudent() throws Exception {
+
+        mvc.perform(get("/api/v1/students/find/laureanray")
+                .accept(ACCEPT)
+                .header("Authorization", "Bearer ".concat(adminToken)))
+                .andExpect(status().isOk());
+
+
+
+
+    }
 }

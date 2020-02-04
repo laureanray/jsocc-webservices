@@ -49,7 +49,7 @@ public class StudentController {
     @GetMapping("/{id}")
     @PreAuthorize(ALL)
     public Student getCustomerById(@PathVariable Long id){
-        return studentService.findStudentById(id);
+        return studentService.findById(id);
     }
 
     @PostMapping(value = "/register", consumes = "application/json;charset=UTF-8")

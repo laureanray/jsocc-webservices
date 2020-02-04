@@ -16,7 +16,6 @@ public class Admin extends User {
     @JoinTable(name = "admin_roles", joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
     public Admin() {
-        super.setStudent(false);
     }
 
 }

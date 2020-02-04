@@ -2,6 +2,7 @@ package com.fozf.jsoccwebservices.data;
 
 import com.fozf.jsoccwebservices.domain.*;
 import com.fozf.jsoccwebservices.repositories.*;
+import com.fozf.jsoccwebservices.services.StudentService;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ public class DBBootstrapper implements CommandLineRunner {
     public static List<Instructor> instructors = new ArrayList<>();
 
     private StudentRepository studentRepository;
+    private StudentService studentService;
     private InstructorRepository instructorRepository;
     private CourseRepository courseRepository;
     private ExerciseRepository exerciseRepository;
@@ -27,13 +29,14 @@ public class DBBootstrapper implements CommandLineRunner {
     private CourseTemplateRepository courseTemplateRepository;
 
     public DBBootstrapper(StudentRepository studentRepository,
-                          InstructorRepository instructorRepository,
+                          StudentService studentService, InstructorRepository instructorRepository,
                           CourseRepository courseRepository,
                           ExerciseRepository exerciseRepository,
                           ExerciseItemRepository exerciseItemRepository,
                           CourseTemplateRepository courseTemplateRepository
-        ) {
+    ) {
         this.studentRepository = studentRepository;
+        this.studentService = studentService;
         this.instructorRepository = instructorRepository;
         this.courseRepository = courseRepository;
         this.exerciseRepository = exerciseRepository;
@@ -52,7 +55,6 @@ public class DBBootstrapper implements CommandLineRunner {
         student1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
         student1.setEmail("laureanraybahala@gmail.com");
         student1.setUsername("laureanray");
-        student1.setStudent(true);
 
         students.add(student1);
 
@@ -174,7 +176,7 @@ public class DBBootstrapper implements CommandLineRunner {
         if(studentRepository.count() == 0){
 
             for(Student student : students) {
-                studentRepository.save(student);
+                studentService.saveStudent(student);
             }
 
         }

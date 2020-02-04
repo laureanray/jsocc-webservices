@@ -6,7 +6,7 @@ import com.fozf.jsoccwebservices.domain.Student;
 import java.util.List;
 
 public interface StudentService {
-    Student findStudentById(Long id);
+    Student findById(Long id);
     Student findByUserName(String username);
     List<Student> findAllStudent();
 
