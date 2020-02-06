@@ -77,6 +77,7 @@ public class InitialDataLoader implements
         student1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
         student1.setEmail("laureanraybahala@gmail.com");
         student1.setUsername("laureanray");
+        student1.setRoles(Arrays.asList(studentRole));
 
         Instructor instructor1 = new Instructor();
         instructor1.setFirstName("Juan");
@@ -84,6 +85,7 @@ public class InitialDataLoader implements
         instructor1.setUsername("juan");
         instructor1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
         instructor1.setEmail("juan@gmail.com");
+        instructor1.setRoles(Arrays.asList(instructorRole));
 
         Course course1 = new Course();
         course1.setCourseTitle("Basic Java Programming");
@@ -99,11 +101,11 @@ public class InitialDataLoader implements
         }
 
         if(studentRepository.findAll().isEmpty()){
-
+            studentRepository.save(student1);
         }
 
         if(instructorRepository.findAll().isEmpty()){
-
+            instructorRepository.save(instructor1);
         }
 
         alreadySetup = true;

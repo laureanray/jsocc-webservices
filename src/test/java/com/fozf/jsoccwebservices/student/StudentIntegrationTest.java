@@ -1,6 +1,5 @@
 package com.fozf.jsoccwebservices.student;
 
-import com.fozf.jsoccwebservices.data.DBBootstrapper;
 import com.fozf.jsoccwebservices.controllers.StudentController;
 import com.fozf.jsoccwebservices.domain.Student;
 import com.fozf.jsoccwebservices.repositories.StudentRepository;
@@ -71,6 +70,7 @@ public class StudentIntegrationTest {
         student1.setLastName("lastname");
         student1.setEmail("email@example.com");
         student1.setUsername("testers");
+        student1.setPassword("P@$$w0rd");
         adminToken = obtainAccessToken("admin", "P@$$w0rd");
     }
 //

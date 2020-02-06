@@ -65,7 +65,7 @@ public class StudentController {
             // this means this doesnt conflict to other user
 
             // set roles first
-            //student.setRoles(Arrays.asList(roleRepository.findByName("ROLE_STUDENT")));
+            student.setRoles(Arrays.asList(roleRepository.findByName("ROLE_STUDENT")));
             return ResponseEntity.created(uri).body(studentService.saveStudent(student));
         }
 

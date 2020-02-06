@@ -1,6 +1,6 @@
 package com.fozf.jsoccwebservices.auth;
 
-import com.fozf.jsoccwebservices.data.DBBootstrapper;
+
 import com.fozf.jsoccwebservices.data.InitialDataLoader;
 import com.fozf.jsoccwebservices.repositories.AdminRepository;
 import com.fozf.jsoccwebservices.student.StudentIntegrationTest;

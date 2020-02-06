@@ -3,6 +3,7 @@ package com.fozf.jsoccwebservices.controllers;
 import com.fozf.jsoccwebservices.domain.Instructor;
 import com.fozf.jsoccwebservices.domain.Login;
 import com.fozf.jsoccwebservices.domain.Student;
+import com.fozf.jsoccwebservices.repositories.RoleRepository;
 import com.fozf.jsoccwebservices.services.InstructorService;
 import com.fozf.jsoccwebservices.services.StudentService;
 import org.mindrot.jbcrypt.BCrypt;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -22,10 +24,12 @@ public class InstructorController {
    final static String BASE_URL = "api/v1/instructor";
    private final InstructorService instructorService;
    private final StudentService studentService;
+   private final RoleRepository roleRepository;
 
-    public InstructorController(InstructorService instructorService, StudentService studentService) {
+    public InstructorController(InstructorService instructorService, StudentService studentService, RoleRepository roleRepository) {
         this.instructorService = instructorService;
         this.studentService = studentService;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping
@@ -45,6 +49,7 @@ public class InstructorController {
 
 
         if(student == null){
+            instructor.setRoles(Arrays.asList(roleRepository.findByName("ROLE_INSTRUCTOR")));
             return ResponseEntity.created(uri).body(instructorService.saveInstructor(instructor));
         }
 
