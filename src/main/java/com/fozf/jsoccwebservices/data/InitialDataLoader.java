@@ -83,6 +83,16 @@ public class InitialDataLoader implements
         student1.setRoles(Arrays.asList(studentRole));
         student1.setEnabled(true);
 
+        Student student2 = new Student();
+        student2.setFirstName("Laurean Ray");
+        student2.setLastName("Bahala");
+        student2.setPassword(passwordEncoder.encode("P@$$w0rd"));
+        student2.setEmail("dapatuniqueto@gmail.com");
+        student2.setUsername("student_disabled");
+        student2.setRoles(Arrays.asList(studentRole));
+        student2.setEnabled(false);
+
+
         Instructor instructor1 = new Instructor();
         instructor1.setFirstName("Juan");
         instructor1.setLastName("Dela Cruz");
@@ -108,6 +118,7 @@ public class InitialDataLoader implements
 
         if(studentRepository.findAll().isEmpty()){
             studentRepository.save(student1);
+            studentRepository.save(student2);
         }
 
         if(instructorRepository.findAll().isEmpty()){

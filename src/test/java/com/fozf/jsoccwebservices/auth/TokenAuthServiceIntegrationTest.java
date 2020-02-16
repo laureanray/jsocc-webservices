@@ -44,6 +44,21 @@ public class TokenAuthServiceIntegrationTest {
     final static String ACCEPT  = "application/json;charset=UTF-8";
 
     @Test
+    public void shouldNotAllowAccessToDisabledUsers() throws Exception {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "password");
+        params.add("client_id", "testjwtclientid");
+        params.add("username", "student_disabled");
+        params.add("password", password);
+
+        mvc.perform(post("/oauth/token")
+                .params(params)
+                .with(httpBasic("testjwtclientid","XY7kmzoNzl100"))
+                .accept(ACCEPT))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     public void shouldNotAllowAccessToUnauthenticatedUsers() throws Exception {
         mvc.perform(get("/api/v1/students"))
                 .andExpect(status().isUnauthorized());
