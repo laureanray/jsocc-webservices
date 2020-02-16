@@ -4,6 +4,7 @@ import com.fozf.jsoccwebservices.domain.Admin;
 import com.fozf.jsoccwebservices.domain.Instructor;
 import com.fozf.jsoccwebservices.domain.Student;
 import com.fozf.jsoccwebservices.domain.User;
+import com.fozf.jsoccwebservices.exceptions.UserNotEnabledException;
 import com.fozf.jsoccwebservices.repositories.AdminRepository;
 import com.fozf.jsoccwebservices.repositories.InstructorRepository;
 import com.fozf.jsoccwebservices.repositories.StudentRepository;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class AppUserDetailsService implements UserDetailsService {
+public class _AppUserDetailsService implements UserDetailsService {
     @Autowired
     private StudentRepository studentRepository;
 
@@ -36,8 +37,10 @@ public class AppUserDetailsService implements UserDetailsService {
         Instructor instructor = instructorRepository.findByUsername(s);
         Admin admin = adminRepository.findByUsername(s);
         List<GrantedAuthority> authorities = new ArrayList<>();
-
         if(student != null) {
+            if (!student.isEnabled()) {
+               throw new UsernameNotFoundException("Test");
+            }
             student.getRoles().forEach(role -> {
                 authorities.add(new SimpleGrantedAuthority(role.getName()));
             });
@@ -67,7 +70,5 @@ public class AppUserDetailsService implements UserDetailsService {
         } else {
             throw new UsernameNotFoundException(String.format("The username %s doesn't exist", s));
         }
-
-
     }
 }

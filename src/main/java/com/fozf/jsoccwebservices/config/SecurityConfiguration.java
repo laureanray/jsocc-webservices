@@ -76,4 +76,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         defaultTokenServices.setSupportRefreshToken(true);
         return defaultTokenServices;
     }
+
+
 }
