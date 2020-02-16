@@ -2,14 +2,23 @@ package com.fozf.jsoccwebservices.auth;
 
 
 import com.fozf.jsoccwebservices.data.InitialDataLoader;
+import com.fozf.jsoccwebservices.domain.Admin;
+import com.fozf.jsoccwebservices.domain.Instructor;
+import com.fozf.jsoccwebservices.domain.Student;
 import com.fozf.jsoccwebservices.repositories.AdminRepository;
+import com.fozf.jsoccwebservices.repositories.InstructorRepository;
+import com.fozf.jsoccwebservices.repositories.StudentRepository;
 import com.fozf.jsoccwebservices.student.StudentIntegrationTest;
+import com.google.gson.Gson;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -17,29 +26,22 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 public class TokenAuthServiceIntegrationTest {
 
-
     @Autowired
     private MockMvc mvc;
 
-    final String admin = "admin";
-    final String instructor = "juan";
-    final String student = "laureanray";
     final String password = "P@$$w0rd";
     final static String ACCEPT  = "application/json;charset=UTF-8";
-
-
-
 
     @Test
     public void shouldNotAllowAccessToUnauthenticatedUsers() throws Exception {
@@ -52,7 +54,7 @@ public class TokenAuthServiceIntegrationTest {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
         params.add("client_id", "testjwtclientid");
-        params.add("username", admin);
+        params.add("username", "admin");
         params.add("password", password);
 
         ResultActions result
@@ -81,7 +83,7 @@ public class TokenAuthServiceIntegrationTest {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
         params.add("client_id", "testjwtclientid");
-        params.add("username", student);
+        params.add("username", "student");
         params.add("password", password);
 
         ResultActions result
@@ -110,7 +112,7 @@ public class TokenAuthServiceIntegrationTest {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
         params.add("client_id", "testjwtclientid");
-        params.add("username", instructor);
+        params.add("username", "instructor");
         params.add("password", password);
 
         ResultActions result

@@ -16,7 +16,7 @@ import java.util.Set;
 @Setter
 @Entity
 public class Student extends User {
-    @ManyToMany(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Course> courses = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

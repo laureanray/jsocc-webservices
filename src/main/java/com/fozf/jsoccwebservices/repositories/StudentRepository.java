@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
     Student findByUsername(String username);
+    void deleteByUsername(String username);
 }

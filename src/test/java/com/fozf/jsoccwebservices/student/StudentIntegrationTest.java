@@ -1,23 +1,22 @@
 package com.fozf.jsoccwebservices.student;
 
 import com.fozf.jsoccwebservices.controllers.StudentController;
+import com.fozf.jsoccwebservices.data.InitialDataLoader;
+import com.fozf.jsoccwebservices.domain.Admin;
 import com.fozf.jsoccwebservices.domain.Student;
+import com.fozf.jsoccwebservices.repositories.AdminRepository;
 import com.fozf.jsoccwebservices.repositories.StudentRepository;
-import com.fozf.jsoccwebservices.services.StudentService;
-import com.fozf.jsoccwebservices.storage.StorageService;
 import com.google.gson.Gson;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
+import io.micrometer.core.instrument.util.JsonUtils;
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -25,10 +24,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import java.util.Arrays;
+
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -43,38 +42,39 @@ public class StudentIntegrationTest {
 
     @Autowired
     private StudentRepository studentRepository;
-    //@MockBean
-    //private StudentController studentController;
 
-//    @MockBean
-//    private StudentRepository studentRepository;
-
-    //@MockBean
-    //private StorageService storageService;
+    @Autowired
+    private AdminRepository adminRepository;
 
     private Student student1 = new Student();
     private Student student2 = new Student();
+    private Admin admin = new Admin();
+
+
     final static String ACCEPT  = "application/json;charset=UTF-8";
     private String adminToken;
+    private final String password = "P@$$w0rd";
 
     public StudentIntegrationTest() throws Exception {
         //studentRepository.deleteAll();
-    }
-
-    //
-//
-    @Before
-    public void clearDatabase() throws Exception {
-        studentRepository.deleteAll();
-        student1.setFirstName("test student");
+        student1.setFirstName("test stu23dent");
         student1.setLastName("lastname");
         student1.setEmail("email@example.com");
         student1.setUsername("testers");
-        student1.setPassword("P@$$w0rd");
-        adminToken = obtainAccessToken("admin", "P@$$w0rd");
+        student1.setPassword(password);
+        // Set properties for admin
+        admin.setFirstName("First Name");
+        admin.setLastName("Last Name");
+        admin.setUsername("admin");
+        admin.setPassword(password);
+        admin.setEmail("instructor@example.com");
     }
-//
-//
+
+    @Before
+    public void clearDatabase() throws Exception {
+        adminToken = obtainAccessToken("admin", password);
+    }
+
     private String obtainAccessToken(String username, String password) throws Exception {
 
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -99,11 +99,8 @@ public class StudentIntegrationTest {
 
     @Test
     public void shouldNotAllowAccessIfTokenNotProvided() throws  Exception {
-        // given(studentController.getAllStudents()).willReturn(DBBootstrapper.students);
-
         mvc.perform(MockMvcRequestBuilders.get("/api/v1/students"))
             .andExpect(status().isUnauthorized());
-
     }
 
     @Test
@@ -112,8 +109,6 @@ public class StudentIntegrationTest {
                 .header("Authorization", "Bearer " + adminToken)
                 .accept(ACCEPT))
                 .andExpect(status().isOk());
-
-
     }
 
     @Test
@@ -125,7 +120,6 @@ public class StudentIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest())
                     .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON));
-
     }
 
     @Test
@@ -147,9 +141,25 @@ public class StudentIntegrationTest {
 
     @Test
     public void shouldReturnStudent() throws Exception {
-        // since database is wiped we should call test register
-        shouldSuccessfullyRegisterStudentAndHaveRole();
-        mvc.perform(get("/api/v1/students/find/".concat(student1.getUsername()))
+        Student student = new Student();
+        student.setFirstName("Test Test");
+        student.setLastName("Test");
+        student.setPassword(password);
+        student.setUsername("test");
+        student.setEmail("test_student@example.com");
+
+
+        this.mvc.perform(post("/api/v1/students/register")
+                .accept("application/json;charset=UTF-8")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new Gson().toJson(student)))
+                .andExpect(jsonPath("$.roles", hasSize(1)))
+                .andExpect(status().isCreated());
+        Student studentResult = studentRepository.findByUsername(student.getUsername());
+        Assert.assertEquals(student.getUsername(), studentResult.getUsername());
+
+
+        mvc.perform(get("/api/v1/students/find/".concat(studentResult.getUsername()))
                 .accept(ACCEPT)
                 .header("Authorization", "Bearer ".concat(adminToken)))
                 .andExpect(status().isOk());

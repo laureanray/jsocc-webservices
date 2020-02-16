@@ -39,6 +39,10 @@ public class InitialDataLoader implements
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public static Role adminRole;
+    public static Role studentRole;
+    public static Role instructorRole;
+
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -56,9 +60,9 @@ public class InitialDataLoader implements
         createRoleIfNotFound("ROLE_STUDENT", Arrays.asList(readPrivilege));
         createRoleIfNotFound("ROLE_INSTRUCTOR", Arrays.asList(readPrivilege));
 
-        Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-        Role studentRole = roleRepository.findByName("ROLE_STUDENT");
-        Role instructorRole = roleRepository.findByName("ROLE_INSTRUCTOR");
+        adminRole = roleRepository.findByName("ROLE_ADMIN");
+        studentRole = roleRepository.findByName("ROLE_STUDENT");
+        instructorRole = roleRepository.findByName("ROLE_INSTRUCTOR");
 
 
         Admin admin = new Admin();
@@ -74,16 +78,16 @@ public class InitialDataLoader implements
         Student student1 = new Student();
         student1.setFirstName("Laurean Ray");
         student1.setLastName("Bahala");
-        student1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
+        student1.setPassword(passwordEncoder.encode("P@$$w0rd"));
         student1.setEmail("laureanraybahala@gmail.com");
-        student1.setUsername("laureanray");
+        student1.setUsername("student");
         student1.setRoles(Arrays.asList(studentRole));
 
         Instructor instructor1 = new Instructor();
         instructor1.setFirstName("Juan");
         instructor1.setLastName("Dela Cruz");
-        instructor1.setUsername("juan");
-        instructor1.setPassword(BCrypt.hashpw("P@$$w0rd", BCrypt.gensalt(10)));
+        instructor1.setUsername("instructor");
+        instructor1.setPassword(passwordEncoder.encode("P@$$w0rd"));
         instructor1.setEmail("juan@gmail.com");
         instructor1.setRoles(Arrays.asList(instructorRole));
 
@@ -112,7 +116,7 @@ public class InitialDataLoader implements
     }
 
     @Transactional
-    private Privilege createPrivilegeIfNotFound(String name) {
+    Privilege createPrivilegeIfNotFound(String name) {
 
         Privilege privilege = privilegeRepository.findByName(name);
         if (privilege == null) {
