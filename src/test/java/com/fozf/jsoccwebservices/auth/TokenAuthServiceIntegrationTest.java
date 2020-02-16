@@ -55,7 +55,7 @@ public class TokenAuthServiceIntegrationTest {
                 .params(params)
                 .with(httpBasic("testjwtclientid","XY7kmzoNzl100"))
                 .accept(ACCEPT))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
