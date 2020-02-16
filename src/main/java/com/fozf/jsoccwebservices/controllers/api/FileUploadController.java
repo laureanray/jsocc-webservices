@@ -1,4 +1,4 @@
-package com.fozf.jsoccwebservices.controllers;
+package com.fozf.jsoccwebservices.controllers.api;
 
 import com.fozf.jsoccwebservices.storage.StorageFileNotFoundException;
 import com.fozf.jsoccwebservices.storage.StorageService;

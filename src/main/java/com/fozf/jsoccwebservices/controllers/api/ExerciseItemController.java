@@ -1,6 +1,5 @@
-package com.fozf.jsoccwebservices.controllers;
+package com.fozf.jsoccwebservices.controllers.api;
 
-import com.fozf.jsoccwebservices.domain.Exercise;
 import com.fozf.jsoccwebservices.domain.ExerciseItem;
 import com.fozf.jsoccwebservices.repositories.ExerciseItemRepository;
 import com.fozf.jsoccwebservices.services.ExerciseItemService;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Date;
 import java.util.List;
 
 @RestController

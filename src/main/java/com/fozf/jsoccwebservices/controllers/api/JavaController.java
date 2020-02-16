@@ -1,21 +1,9 @@
-package com.fozf.jsoccwebservices.controllers;
+package com.fozf.jsoccwebservices.controllers.api;
 
 import com.fozf.jsoccwebservices.domain.CompileTask;
-import com.fozf.jsoccwebservices.domain.Course;
-import com.fozf.jsoccwebservices.exceptions.ResourceNotFoundException;
 import com.fozf.jsoccwebservices.javac.JavaCompiler;
-import com.fozf.jsoccwebservices.services.CourseService;
-import com.fozf.jsoccwebservices.services.InstructorService;
-import com.fozf.jsoccwebservices.services.StudentService;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.async.DeferredResult;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping(JavaController.BASE_URL)

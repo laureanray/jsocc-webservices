@@ -1,13 +1,10 @@
 package com.fozf.jsoccwebservices.student;
 
-import com.fozf.jsoccwebservices.controllers.StudentController;
-import com.fozf.jsoccwebservices.data.InitialDataLoader;
 import com.fozf.jsoccwebservices.domain.Admin;
 import com.fozf.jsoccwebservices.domain.Student;
 import com.fozf.jsoccwebservices.repositories.AdminRepository;
 import com.fozf.jsoccwebservices.repositories.StudentRepository;
 import com.google.gson.Gson;
-import io.micrometer.core.instrument.util.JsonUtils;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +12,12 @@ import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-
-import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;

@@ -1,9 +1,6 @@
 package com.fozf.jsoccwebservices.services.impl;
 
-import com.fozf.jsoccwebservices.domain.Admin;
-import com.fozf.jsoccwebservices.domain.Instructor;
-import com.fozf.jsoccwebservices.domain.Student;
-import com.fozf.jsoccwebservices.domain.User;
+import com.fozf.jsoccwebservices.domain.*;
 import com.fozf.jsoccwebservices.exceptions.UserNotEnabledException;
 import com.fozf.jsoccwebservices.repositories.AdminRepository;
 import com.fozf.jsoccwebservices.repositories.InstructorRepository;
@@ -17,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Component
@@ -38,37 +36,29 @@ public class _AppUserDetailsService implements UserDetailsService {
         Admin admin = adminRepository.findByUsername(s);
         List<GrantedAuthority> authorities = new ArrayList<>();
         if(student != null) {
-            if (!student.isEnabled()) {
-               throw new UsernameNotFoundException("Test");
-            }
-            student.getRoles().forEach(role -> {
-                authorities.add(new SimpleGrantedAuthority(role.getName()));
-            });
-
-            UserDetails userDetails = new org.springframework.security.core.userdetails.
-                    User(student.getUsername(), student.getPassword(), authorities);
-
-            return userDetails;
+            return getUserDetails(authorities, student.isEnabled(), student.getRoles(), student.getUsername(), student.getPassword(), instructor);
         } else if(instructor != null) {
-            instructor.getRoles().forEach(role -> {
-                authorities.add(new SimpleGrantedAuthority(role.getName()));
-            });
-
-            UserDetails userDetails = new org.springframework.security.core.userdetails.
-                    User(instructor.getUsername(), instructor.getPassword(), authorities);
-
-            return userDetails;
+            return getUserDetails(authorities, instructor.isEnabled(), instructor.getRoles(), instructor.getUsername(), instructor.getPassword(), instructor);
         } else if(admin != null) {
-            admin.getRoles().forEach(role -> {
-                authorities.add(new SimpleGrantedAuthority(role.getName()));
-            });
-
-            UserDetails userDetails = new org.springframework.security.core.userdetails.
-                    User(admin.getUsername(), admin.getPassword(), authorities);
-
-            return userDetails;
+            return getUserDetails(authorities, admin.isEnabled(), admin.getRoles(), admin.getUsername(), admin.getPassword(), instructor);
         } else {
             throw new UsernameNotFoundException(String.format("The username %s doesn't exist", s));
         }
+    }
+
+    private UserDetails getUserDetails(List<GrantedAuthority> authorities, boolean enabled, Collection<Role> roles, String username, String password, Instructor instructor) {
+        if (!enabled) {
+            // TODO: Create custom exception for clearer error.
+            throw new UsernameNotFoundException("Test");
+        }
+
+        roles.forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        });
+
+        UserDetails userDetails = new org.springframework.security.core.userdetails.
+                User(username, password, authorities);
+
+        return userDetails;
     }
 }

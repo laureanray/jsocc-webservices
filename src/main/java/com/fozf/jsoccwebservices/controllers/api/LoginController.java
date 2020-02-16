@@ -1,4 +1,4 @@
-package com.fozf.jsoccwebservices.controllers;
+package com.fozf.jsoccwebservices.controllers.api;
 
 import com.fozf.jsoccwebservices.domain.Instructor;
 import com.fozf.jsoccwebservices.domain.Login;
@@ -7,13 +7,8 @@ import com.fozf.jsoccwebservices.domain.User;
 import com.fozf.jsoccwebservices.services.InstructorService;
 import com.fozf.jsoccwebservices.services.StudentService;
 import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping(LoginController.BASE_URL)

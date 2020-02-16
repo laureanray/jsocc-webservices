@@ -1,4 +1,4 @@
-package com.fozf.jsoccwebservices.controllers;
+package com.fozf.jsoccwebservices.controllers.api;
 
 import com.fozf.jsoccwebservices.domain.Course;
 import com.fozf.jsoccwebservices.domain.Instructor;

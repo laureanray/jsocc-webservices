@@ -1,15 +1,10 @@
-package com.fozf.jsoccwebservices.controllers;
+package com.fozf.jsoccwebservices.controllers.api;
 
 import com.fozf.jsoccwebservices.domain.Course;
-import com.fozf.jsoccwebservices.domain.Instructor;
-import com.fozf.jsoccwebservices.domain.Login;
-import com.fozf.jsoccwebservices.domain.Student;
 import com.fozf.jsoccwebservices.exceptions.ResourceNotFoundException;
 import com.fozf.jsoccwebservices.services.CourseService;
 import com.fozf.jsoccwebservices.services.InstructorService;
 import com.fozf.jsoccwebservices.services.StudentService;
-import org.mindrot.jbcrypt.BCrypt;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;

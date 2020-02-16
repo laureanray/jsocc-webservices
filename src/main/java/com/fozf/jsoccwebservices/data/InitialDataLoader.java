@@ -74,7 +74,6 @@ public class InitialDataLoader implements
         admin.setUsername("admin");
         admin.setEnabled(true);
 
-
         Student student1 = new Student();
         student1.setFirstName("Laurean Ray");
         student1.setLastName("Bahala");
@@ -82,6 +81,7 @@ public class InitialDataLoader implements
         student1.setEmail("laureanraybahala@gmail.com");
         student1.setUsername("student");
         student1.setRoles(Arrays.asList(studentRole));
+        student1.setEnabled(true);
 
         Instructor instructor1 = new Instructor();
         instructor1.setFirstName("Juan");
@@ -90,6 +90,7 @@ public class InitialDataLoader implements
         instructor1.setPassword(passwordEncoder.encode("P@$$w0rd"));
         instructor1.setEmail("juan@gmail.com");
         instructor1.setRoles(Arrays.asList(instructorRole));
+        instructor1.setEnabled(true);
 
         Course course1 = new Course();
         course1.setCourseTitle("Basic Java Programming");
@@ -99,6 +100,7 @@ public class InitialDataLoader implements
         course1.setInstructor(instructor1);
         course1.setDateAdded(new Date());
         course1.setCourseProgrammingLanguage("Java");
+
 
         if(adminRepository.findAll().isEmpty()){
             adminRepository.save(admin);
