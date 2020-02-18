@@ -22,4 +22,6 @@ public class Student extends User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "student_roles", joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
+
+    private boolean isEmailConfirmed = false;
 }
