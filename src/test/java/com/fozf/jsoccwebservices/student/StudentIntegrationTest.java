@@ -12,6 +12,7 @@ import org.springframework.boot.json.JacksonJsonParser;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -38,6 +39,9 @@ public class StudentIntegrationTest {
 
     @Autowired
     private AdminRepository adminRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private Student student1 = new Student();
     private Student student2 = new Student();
@@ -159,7 +163,7 @@ public class StudentIntegrationTest {
     }
 
     @Test
-    public void shouldUpdateStudentDetails() throws Exception {
+    public void shouldUpdatePassword() throws Exception {
         // Get the student to update first
 
         Student studentToUpdate = studentRepository.findByUsername("student");
@@ -171,7 +175,9 @@ public class StudentIntegrationTest {
                     .header("Authorization", "Bearer ".concat(adminToken))
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new Gson().toJson(studentToUpdate)))
+                    .andExpect(jsonPath("$.password").value(passwordEncoder.encode(studentToUpdate.getPassword())))
                     .andExpect(status().isOk());
+
         } else {
             throw new Exception("Student returned null");
         }

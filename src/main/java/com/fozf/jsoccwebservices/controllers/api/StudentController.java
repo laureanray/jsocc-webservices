@@ -8,6 +8,7 @@ import com.fozf.jsoccwebservices.repositories.StudentRepository;
 import com.fozf.jsoccwebservices.services.CourseService;
 import com.fozf.jsoccwebservices.services.InstructorService;
 import com.fozf.jsoccwebservices.services.StudentService;
+import org.hibernate.annotations.NotFound;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -110,9 +112,17 @@ public class StudentController {
 
     @PreAuthorize(ALL)
     @PostMapping("/update/{username}")
-    public ResponseEntity<Student> updateStudent(@PathVariable String username, @RequestBody Student student) {
-        studentService.updateStudent(student);
-        return ResponseEntity.ok(student);
+    public ResponseEntity<Student> updatePassword(@PathVariable String username, @RequestBody Student student) {
+        Student studentToUpdate = studentService.findByUserName(username);
+
+        if(studentToUpdate != null){
+            studentToUpdate.setPassword(student.getPassword());
+            studentToUpdate.setUpdatedAt(new Date());
+            studentService.updateStudent(studentToUpdate);
+            return ResponseEntity.ok(student);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
 }
