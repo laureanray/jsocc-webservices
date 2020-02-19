@@ -108,4 +108,8 @@ public class StudentController {
         return ResponseEntity.notFound().build();
     }
 
+//    @PreAuthorize(ALL)
+//    @PostMapping("/update/{userId}")
+//    public ResponseEntity<Student> updatestudentDetails
+
 }

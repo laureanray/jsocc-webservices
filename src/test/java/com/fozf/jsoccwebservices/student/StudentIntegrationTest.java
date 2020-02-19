@@ -157,4 +157,16 @@ public class StudentIntegrationTest {
                 .header("Authorization", "Bearer ".concat(adminToken)))
                 .andExpect(status().isOk());
     }
+
+    @Test
+    public void shouldUpdateStudentDetails() throws Exception {
+        Student updatedDetails = new Student();
+
+
+        this.mvc.perform(post("/api/v1/students/update/student")
+                .accept("application/json;charset=UTF-8")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(new Gson().toJson()))
+
+    }
 }

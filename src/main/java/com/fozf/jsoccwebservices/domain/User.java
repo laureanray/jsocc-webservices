@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
+import java.util.Date;
 
 
 @MappedSuperclass
@@ -28,4 +29,10 @@ public class User {
     private boolean enabled;
     private boolean tokenExpired;
     private String profileImageURL;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createAt;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
 }
