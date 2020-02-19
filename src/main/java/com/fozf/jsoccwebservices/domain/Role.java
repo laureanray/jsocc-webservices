@@ -24,7 +24,7 @@ public class Role {
     private String name;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
     private Set<Student> students;
 
     @ManyToMany(mappedBy = "roles")

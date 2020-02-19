@@ -118,8 +118,8 @@ public class StudentController {
         if(studentToUpdate != null){
             studentToUpdate.setPassword(student.getPassword());
             studentToUpdate.setUpdatedAt(new Date());
-            studentService.updateStudent(studentToUpdate);
-            return ResponseEntity.ok(student);
+            Student updated = studentService.updateStudent(studentToUpdate);
+            return ResponseEntity.ok(updated);
         }
 
         return ResponseEntity.notFound().build();

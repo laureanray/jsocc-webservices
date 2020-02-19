@@ -53,6 +53,7 @@ public class StudentServiceImpl implements StudentService {
     @ResponseStatus(HttpStatus.ACCEPTED)
     @Override
     public Student updateStudent(Student student) {
+        student.setPassword(passwordEncoder.encode(student.getPassword()));
         return studentRepository.save(student);
     }
 }
