@@ -26,7 +26,7 @@ public class User {
     @NotEmpty(message = "Please provide username")
     @Column(unique = true, nullable = false)
     private String username;
-    private boolean enabled;
+    private boolean enabled = false;
     private boolean tokenExpired;
     private String profileImageURL;
 

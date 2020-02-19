@@ -163,10 +163,12 @@ public class StudentIntegrationTest {
         // Get the student to update first
 
         Student studentToUpdate = studentRepository.findByUsername("student");
+        studentToUpdate.setPassword("thisisanewpassword");
 
         if(studentToUpdate != null){
             this.mvc.perform(post("/api/v1/students/update/student")
                     .accept("application/json;charset=UTF-8")
+                    .header("Authorization", "Bearer ".concat(adminToken))
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(new Gson().toJson(studentToUpdate)))
                     .andExpect(status().isOk());
