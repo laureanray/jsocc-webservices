@@ -160,13 +160,19 @@ public class StudentIntegrationTest {
 
     @Test
     public void shouldUpdateStudentDetails() throws Exception {
-        Student updatedDetails = new Student();
+        // Get the student to update first
 
+        Student studentToUpdate = studentRepository.findByUsername("student");
 
-        this.mvc.perform(post("/api/v1/students/update/student")
-                .accept("application/json;charset=UTF-8")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new Gson().toJson()))
+        if(studentToUpdate != null){
+            this.mvc.perform(post("/api/v1/students/update/student")
+                    .accept("application/json;charset=UTF-8")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(new Gson().toJson(studentToUpdate)))
+                    .andExpect(status().isOk());
+        } else {
+            throw new Exception("Student returned null");
+        }
 
     }
 }

@@ -31,6 +31,7 @@ public class User {
     private String profileImageURL;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createAt;
 
     @Temporal(TemporalType.TIMESTAMP)
