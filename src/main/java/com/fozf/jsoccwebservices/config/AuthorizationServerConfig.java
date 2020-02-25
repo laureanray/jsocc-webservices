@@ -25,6 +25,12 @@ import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenCo
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
+    @Value("${security.jwt.android-client-id}")
+    private String androidClientId;
+
+    @Value("${security.jwt.android-client-secret}")
+    private String androidClientSecret;
+
     @Value("${security.jwt.client-id}")
     private String clientId;
 
@@ -65,6 +71,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .withClient(clientId)
                 .secret(passwordEncoder.encode(clientSecret))
                 .authorizedGrantTypes(grantType)
+                .scopes(scopeRead, scopeWrite)
+                .resourceIds(resourceIds)
+                .and()
+                .withClient(androidClientId)
+                .secret(passwordEncoder.encode(androidClientSecret))
                 .scopes(scopeRead, scopeWrite)
                 .resourceIds(resourceIds);
     }

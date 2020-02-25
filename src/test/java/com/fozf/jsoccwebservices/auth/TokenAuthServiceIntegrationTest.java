@@ -94,6 +94,35 @@ public class TokenAuthServiceIntegrationTest {
     }
 
     @Test
+    public void shouldReturnTokenForStudentAndroidClient() throws Exception {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "password");
+        params.add("client_id", "ANDROID_CLIENT");
+        params.add("username", "admin");
+        params.add("password", password);
+
+        ResultActions result
+                = mvc.perform(post("/oauth/token")
+                .params(params)
+                .with(httpBasic("ANDROID_CLIENT","SECRET"))
+                .accept(ACCEPT))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json;charset=UTF-8"));
+
+        String resultString = result.andReturn().getResponse().getContentAsString();
+
+        JacksonJsonParser jsonParser = new JacksonJsonParser();
+        String token = jsonParser.parseMap(resultString).get("access_token").toString();
+
+        // Test if token have access in protected routes
+
+        mvc.perform(get("/api/v1/students/")
+                .accept(ACCEPT)
+                .header("Authorization", "Bearer ".concat(token)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void shouldReturnTokenForStudent() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
