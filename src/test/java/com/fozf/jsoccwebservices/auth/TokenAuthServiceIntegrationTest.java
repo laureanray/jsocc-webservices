@@ -47,13 +47,13 @@ public class TokenAuthServiceIntegrationTest {
     public void shouldNotAllowAccessToDisabledUsers() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
-        params.add("client_id", "testjwtclientid");
+        params.add("client_id", "WEB_CLIENT");
         params.add("username", "student_disabled");
         params.add("password", password);
 
         mvc.perform(post("/oauth/token")
                 .params(params)
-                .with(httpBasic("testjwtclientid","XY7kmzoNzl100"))
+                .with(httpBasic("WEB_CLIENT","SECRET"))
                 .accept(ACCEPT))
                 .andExpect(status().isBadRequest());
     }
@@ -68,14 +68,14 @@ public class TokenAuthServiceIntegrationTest {
     public void shouldReturnTokenForAdmin() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
-        params.add("client_id", "testjwtclientid");
+        params.add("client_id", "WEB_CLIENT");
         params.add("username", "admin");
         params.add("password", password);
 
         ResultActions result
                 = mvc.perform(post("/oauth/token")
                 .params(params)
-                .with(httpBasic("testjwtclientid","XY7kmzoNzl100"))
+                .with(httpBasic("WEB_CLIENT","SECRET"))
                 .accept(ACCEPT))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"));
@@ -126,14 +126,14 @@ public class TokenAuthServiceIntegrationTest {
     public void shouldReturnTokenForStudent() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
-        params.add("client_id", "testjwtclientid");
+        params.add("client_id", "WEB_CLIENT");
         params.add("username", "student");
         params.add("password", password);
 
         ResultActions result
                 = mvc.perform(post("/oauth/token")
                 .params(params)
-                .with(httpBasic("testjwtclientid","XY7kmzoNzl100"))
+                .with(httpBasic("WEB_CLIENT","SECRET"))
                 .accept(ACCEPT))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"));
@@ -155,14 +155,14 @@ public class TokenAuthServiceIntegrationTest {
     public void shouldReturnTokenForInstructor() throws Exception {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("grant_type", "password");
-        params.add("client_id", "testjwtclientid");
+        params.add("client_id", "WEB_CLIENT");
         params.add("username", "instructor");
         params.add("password", password);
 
         ResultActions result
                 = mvc.perform(post("/oauth/token")
                 .params(params)
-                .with(httpBasic("testjwtclientid", "XY7kmzoNzl100"))
+                .with(httpBasic("WEB_CLIENT", "SECRET"))
                 .accept(ACCEPT))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json;charset=UTF-8"));

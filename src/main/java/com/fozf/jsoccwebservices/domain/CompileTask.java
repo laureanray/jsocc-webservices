@@ -28,7 +28,6 @@ public class CompileTask {
     public void setInput(String[] input) {
         this.input = input;
     }
-g
     public boolean isCompileResult() {
         return compileResult;
     }

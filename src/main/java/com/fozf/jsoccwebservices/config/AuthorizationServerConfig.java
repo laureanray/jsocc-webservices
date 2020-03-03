@@ -76,6 +76,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .and()
                 .withClient(androidClientId)
                 .secret(passwordEncoder.encode(androidClientSecret))
+                .authorizedGrantTypes(grantType)
                 .scopes(scopeRead, scopeWrite)
                 .resourceIds(resourceIds);
     }
