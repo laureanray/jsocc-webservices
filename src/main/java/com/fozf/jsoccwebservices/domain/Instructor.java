@@ -19,7 +19,6 @@ import java.util.Set;
 @Entity
 public class Instructor extends User{
     @OneToMany(mappedBy = "instructor", cascade = CascadeType.ALL , fetch = FetchType.LAZY)
-    @JsonIgnore
     private Set<Course> courses = new HashSet<>();
 
     @ManyToMany( fetch = FetchType.EAGER)

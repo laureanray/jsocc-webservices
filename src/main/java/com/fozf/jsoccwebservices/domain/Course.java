@@ -13,7 +13,8 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
-public class Course {
+public class
+Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
