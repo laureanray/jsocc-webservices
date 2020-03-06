@@ -6,6 +6,8 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,9 @@ public class InitialDataLoader implements
         ApplicationListener<ContextRefreshedEvent> {
 
     boolean alreadySetup = false;
+
+    @Autowired
+    private JavaMailSender sender;
 
     @Autowired
     private StudentRepository studentRepository;
@@ -126,6 +131,24 @@ public class InitialDataLoader implements
         }
 
         alreadySetup = true;
+
+        try {
+            sendMail();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    void sendMail() {
+
+        SimpleMailMessage msg = new SimpleMailMessage();
+
+        msg.setTo("laureanraybahala@gmail.com");
+        msg.setSubject("Hello World");
+        msg.setText("Hello World");
+
+        sender.send(msg);
     }
 
     @Transactional
