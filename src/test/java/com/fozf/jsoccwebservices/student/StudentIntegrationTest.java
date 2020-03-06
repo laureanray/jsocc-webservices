@@ -47,7 +47,6 @@ public class StudentIntegrationTest {
     private Student student2 = new Student();
     private Admin admin = new Admin();
 
-
     final static String ACCEPT  = "application/json;charset=UTF-8";
     private String adminToken;
     private final String password = "P@$$w0rd";
