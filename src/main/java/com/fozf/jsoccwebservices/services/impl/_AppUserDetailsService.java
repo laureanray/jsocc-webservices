@@ -48,7 +48,7 @@ public class _AppUserDetailsService implements UserDetailsService {
 
     private UserDetails getUserDetails(List<GrantedAuthority> authorities, boolean enabled, Collection<Role> roles, String username, String password, Instructor instructor) {
         if (!enabled) {
-            // TODO: Create custom exception for clearer error.
+            // TODO: 'Create custom exception for clearer error.
             throw new UsernameNotFoundException("Test");
         }
 
