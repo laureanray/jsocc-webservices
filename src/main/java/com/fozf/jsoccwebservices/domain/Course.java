@@ -14,7 +14,7 @@ import java.util.*;
 @Setter
 @Entity
 public class
-Course {
+    Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
